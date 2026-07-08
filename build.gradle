@@ -1,0 +1,18 @@
+// GTNH ExampleMod-style buildscript.
+// Full template: https://github.com/GTNewHorizons/ExampleMod1.7.10
+// Copy the current ExampleMod build.gradle and settings.gradle verbatim,
+// then edit gradle.properties + dependencies.gradle. This file is a placeholder
+// showing the shape; do not use it standalone.
+
+plugins {
+    id 'com.gtnewhorizons.gtnhconvention'   // pulls in the full GTNH build stack
+}
+
+// GTNHGradle handles:
+//   - source/target compat (Java 8 bytecode, Java 17-25 runtime)
+//   - Forge/MC dep resolution
+//   - Mixin refmap generation
+//   - Spotless formatting
+//   - Publishing
+//
+// You configure specifics in gradle.properties.

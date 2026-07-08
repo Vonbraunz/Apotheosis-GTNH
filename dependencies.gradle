@@ -1,0 +1,7 @@
+// GTNH manages dependencies through this file rather than build.gradle.
+// Reference: https://github.com/GTNewHorizons/ExampleMod1.7.10/blob/master/dependencies.gradle
+
+dependencies {
+    // Optional: add compat deps later if needed
+    // compileOnly('mcp.mobius.waila:Waila:1.5.10_1.7.10:dev')
+}
