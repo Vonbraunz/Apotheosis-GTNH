@@ -21,8 +21,8 @@ public class ApoConfig {
     public static int carrierDropPercent = 100;
 
     // Regular (untagged) mob drop chance: 1-in-N chance to drop a low-rarity affix item
-    public static int mobDropChance = 200; // 1-in-200 regular mobs drop an affix. 0 disables.
-    public static int mobDropPercent = 30; // percent chance to actually get the drop when the roll hits
+    public static int mobDropChance = 50; // 1-in-50 regular mobs drop an affix. 0 disables.
+    public static int mobDropPercent = 50; // percent chance to actually get the drop when the roll hits
 
     // Restrict carrier drops to player kills to avoid mob-farm faucets
     public static boolean carrierRequirePlayerKill = true;
