@@ -1,64 +1,49 @@
-# ApotheosisGTNH — Personal 1.7.10 Backport
+# ApotheosisGTNH
 
-A stripped-down Apotheosis-style affix loot and reforging system for GTNH.
+An Apotheosis-style affix loot system for GTNH (Minecraft 1.7.10). Mobs drop gear with random affixes; elites, carriers, and bosses guarantee higher-tier drops with pre-applied XXV enchants. Fully integrated with Tinkers' Construct.
 
-## Scope (locked in)
+## Features
 
-**In:**
-- Affix loot system (weapons/tools/armor) with rarity tiers
-- Boss / Elite / Carrier drop tiers via `LivingDropsEvent` + `LivingSpawnEvent` + `PopulateChunkEvent`
-- Simplified reforge table (one sigil type, XP cost, re-roll all affixes)
-- Small subset of straight-extends enchantments (optional, examples included)
-
-**Out:**
-- Chest loot injection (`ChestGenHooks` untouched)
-- Full Placebo library (only what Deadly needs is stubbed)
-- Garden module, Prismatic Altar, spawner module, potion module
-- CraftTweaker / WAILA / NEI compat (optional add-back later)
-- Enchantment scraps, typed books, anvil ASM
-
-## Stack
-
-- Target: Minecraft 1.7.10, Forge 10.13.4.1614+
-- Runtime: Java 17-25 via GTNH Lwjgl3ify (bytecode: Java 8)
-- Coremod: **Mixins** via UniMixins (no `IFMLLoadingPlugin`)
-- Mixin Extras: bundled with UniMixins in GTNH, safe to depend on
+- **10 affixes** across weapons and armor (Sharp, Vampiric, Forceful, Scorching, Sturdy, Barbed, Guardian, Vital, Swift, Feather)
+- **4 drop tiers**: regular mobs (1-in-200), silent carriers (1-in-500), elite mobs with visible name tags (1-in-50), boss mobs with massive buffs (1-in-400)
+- **Epic/Mythic gear** pre-enchanted with XXV enchants (Sharpness, Protection, Efficiency, Fortune, Power, Flame, Unbreaking)
+- **Tinkers' Construct integration**: tool head parts drop at common-rare tiers, fully assembled tools with modifiers at epic-mythic. Affix NBT carries through tool station assembly.
+- **Zero runtime dependencies**: no mixins, no packets, no library mods required. Pure Forge events.
 
 ## Build
 
-Uses the GTNH gradle plugin. From project root:
+Requires Java 17-25 and a GTNH workspace.
 
 ```
 ./gradlew setupDecompWorkspace
-./gradlew runClient
 ./gradlew build
 ```
 
 Output jar in `build/libs/`.
 
-## Layout
+## Configuration
 
+All values live in `config/apogtnh.cfg` (auto-generated on first run):
+
+```properties
+# Spawn chances (1-in-N, 0 disables)
+bossSpawnChance=400
+eliteSpawnChance=50
+carrierSpawnChance=500
+
+# Regular mob drop (1-in-N, 0 disables)
+mobDropChance=200
+mobDropPercent=30
+
+# Drop rates by tier (percent)
+bossDropPercent=100
+eliteDropPercent=50
+carrierDropPercent=100
+
+# Affix cap
+maxAffixesPerItem=3
 ```
-src/main/java/com/vonbraunz/apogtnh/
-├── ApotheosisGTNH.java         entry point, @Mod
-├── ApoConfig.java              config
-├── proxy/                      SidedProxy
-├── placebo/                    minimum Placebo API surface
-├── affix/                      affix framework + example impls
-├── deadly/                     boss/elite/carrier tagging + events
-├── reforge/                    reforging table block/TE/container/GUI
-├── network/                    SimpleNetworkWrapper packets
-└── mixin/                      mixin classes (referenced from JSON)
-src/main/resources/
-├── mcmod.info
-├── mixins.apotheosis.json      mixin config
-└── assets/apogtnh/             textures/lang
-```
 
-## TODOs left for implementation
+## License
 
-Every file has `TODO(scaffold)` markers where real logic goes. Enough structure to compile once you fill the TODOs; enough shape to know where each piece belongs.
-
-## Rename
-
-If you don't want `com.vonbraunz.apogtnh` as the package, batch-rename before you start filling TODOs. The mod ID string `apogtnh` also appears in `mcmod.info`, `mixins.apotheosis.json`, `ApotheosisGTNH.java`, and the resource asset paths.
+MIT
