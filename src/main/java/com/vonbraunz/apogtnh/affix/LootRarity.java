@@ -3,11 +3,12 @@ package com.vonbraunz.apogtnh.affix;
 import net.minecraft.util.EnumChatFormatting;
 
 public enum LootRarity {
-    COMMON   (EnumChatFormatting.WHITE,      1, 200),
-    UNCOMMON (EnumChatFormatting.YELLOW,     2, 100),
-    RARE     (EnumChatFormatting.AQUA,       2,  40),
-    EPIC     (EnumChatFormatting.LIGHT_PURPLE, 3, 10),
-    MYTHIC   (EnumChatFormatting.GOLD,       3,   2);
+
+    COMMON(EnumChatFormatting.WHITE, 1, 200),
+    UNCOMMON(EnumChatFormatting.YELLOW, 2, 100),
+    RARE(EnumChatFormatting.AQUA, 2, 40),
+    EPIC(EnumChatFormatting.LIGHT_PURPLE, 3, 10),
+    MYTHIC(EnumChatFormatting.GOLD, 3, 2);
 
     public final EnumChatFormatting color;
     /** Number of affixes rolled at this rarity. */

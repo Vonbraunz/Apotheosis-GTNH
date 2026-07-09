@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<checkstyle version="12.3.1">
+<file name="D:\apotheosis-gtnh\apotheosis-gtnh\src\main\java\com\vonbraunz\apogtnh\affix\Affix.java">
+</file>
+<file name="D:\apotheosis-gtnh\apotheosis-gtnh\src\main\java\com\vonbraunz\apogtnh\affix\AffixHelper.java">
+</file>
+<file name="D:\apotheosis-gtnh\apotheosis-gtnh\src\main\java\com\vonbraunz\apogtnh\affix\AffixRegistry.java">
+</file>
+<file name="D:\apotheosis-gtnh\apotheosis-gtnh\src\main\java\com\vonbraunz\apogtnh\affix\impl\AffixArmor.java">
+</file>
+<file name="D:\apotheosis-gtnh\apotheosis-gtnh\src\main\java\com\vonbraunz\apogtnh\affix\impl\AffixDamage.java">
+</file>
+<file name="D:\apotheosis-gtnh\apotheosis-gtnh\src\main\java\com\vonbraunz\apogtnh\affix\impl\AffixFeather.java">
+</file>
+<file name="D:\apotheosis-gtnh\apotheosis-gtnh\src\main\java\com\vonbraunz\apogtnh\affix\impl\AffixFire.java">
+</file>
+<file name="D:\apotheosis-gtnh\apotheosis-gtnh\src\main\java\com\vonbraunz\apogtnh\affix\impl\AffixGuardian.java">
+</file>
+<file name="D:\apotheosis-gtnh\apotheosis-gtnh\src\main\java\com\vonbraunz\apogtnh\affix\impl\AffixHeart.java">
+</file>
+<file name="D:\apotheosis-gtnh\apotheosis-gtnh\src\main\java\com\vonbraunz\apogtnh\affix\impl\AffixKnockback.java">
+</file>
+<file name="D:\apotheosis-gtnh\apotheosis-gtnh\src\main\java\com\vonbraunz\apogtnh\affix\impl\AffixLifesteal.java">
+</file>
+<file name="D:\apotheosis-gtnh\apotheosis-gtnh\src\main\java\com\vonbraunz\apogtnh\affix\impl\AffixMovement.java">
+</file>
+<file name="D:\apotheosis-gtnh\apotheosis-gtnh\src\main\java\com\vonbraunz\apogtnh\affix\impl\AffixThorns.java">
+</file>
+<file name="D:\apotheosis-gtnh\apotheosis-gtnh\src\main\java\com\vonbraunz\apogtnh\affix\LootCategory.java">
+</file>
+<file name="D:\apotheosis-gtnh\apotheosis-gtnh\src\main\java\com\vonbraunz\apogtnh\affix\LootRarity.java">
+</file>
+<file name="D:\apotheosis-gtnh\apotheosis-gtnh\src\main\java\com\vonbraunz\apogtnh\ApoConfig.java">
+</file>
+<file name="D:\apotheosis-gtnh\apotheosis-gtnh\src\main\java\com\vonbraunz\apogtnh\ApotheosisGTNH.java">
+</file>
+<file name="D:\apotheosis-gtnh\apotheosis-gtnh\src\main\java\com\vonbraunz\apogtnh\compat\TConstructAffixHandler.java">
+</file>
+<file name="D:\apotheosis-gtnh\apotheosis-gtnh\src\main\java\com\vonbraunz\apogtnh\compat\TinkersItems.java">
+</file>
+<file name="D:\apotheosis-gtnh\apotheosis-gtnh\src\main\java\com\vonbraunz\apogtnh\deadly\DeadlyEventHandler.java">
+</file>
+<file name="D:\apotheosis-gtnh\apotheosis-gtnh\src\main\java\com\vonbraunz\apogtnh\deadly\DeadlyTags.java">
+</file>
+<file name="D:\apotheosis-gtnh\apotheosis-gtnh\src\main\java\com\vonbraunz\apogtnh\deadly\EliteMarker.java">
+</file>
+<file name="D:\apotheosis-gtnh\apotheosis-gtnh\src\main\java\com\vonbraunz\apogtnh\placebo\AttributeHelper.java">
+</file>
+<file name="D:\apotheosis-gtnh\apotheosis-gtnh\src\main\java\com\vonbraunz\apogtnh\placebo\PlaceboUtil.java">
+</file>
+<file name="D:\apotheosis-gtnh\apotheosis-gtnh\src\main\java\com\vonbraunz\apogtnh\placebo\RegistryList.java">
+</file>
+<file name="D:\apotheosis-gtnh\apotheosis-gtnh\src\main\java\com\vonbraunz\apogtnh\proxy\ClientProxy.java">
+</file>
+<file name="D:\apotheosis-gtnh\apotheosis-gtnh\src\main\java\com\vonbraunz\apogtnh\proxy\CommonProxy.java">
+</file>
+</checkstyle>

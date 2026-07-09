@@ -1,14 +1,21 @@
 package com.vonbraunz.apogtnh.affix;
 
-import com.vonbraunz.apogtnh.affix.impl.AffixArmor;
-import com.vonbraunz.apogtnh.affix.impl.AffixDamage;
-import com.vonbraunz.apogtnh.affix.impl.AffixLifesteal;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+
+import com.vonbraunz.apogtnh.affix.impl.AffixArmor;
+import com.vonbraunz.apogtnh.affix.impl.AffixDamage;
+import com.vonbraunz.apogtnh.affix.impl.AffixFeather;
+import com.vonbraunz.apogtnh.affix.impl.AffixFire;
+import com.vonbraunz.apogtnh.affix.impl.AffixGuardian;
+import com.vonbraunz.apogtnh.affix.impl.AffixHeart;
+import com.vonbraunz.apogtnh.affix.impl.AffixKnockback;
+import com.vonbraunz.apogtnh.affix.impl.AffixLifesteal;
+import com.vonbraunz.apogtnh.affix.impl.AffixMovement;
+import com.vonbraunz.apogtnh.affix.impl.AffixThorns;
 
 /**
  * HashMap-backed registry for affixes. No IForgeRegistry (doesn't exist in 1.7.10).
@@ -55,11 +62,18 @@ public class AffixRegistry {
      * Kept small in the scaffold on purpose — extend once the wiring is proven.
      */
     public static void bootstrap() {
-        register(new AffixDamage());
-        register(new AffixLifesteal());
-        register(new AffixArmor());
-        // TODO(scaffold): add more affixes:
-        //   AffixMovementSpeed, AffixKnockback, AffixThorns, AffixFireAspect,
-        //   AffixMaxHealth, AffixAttackSpeed, AffixLooting, AffixMending, etc.
+        // Weapon affixes
+        register(new AffixDamage()); // +flat hearts
+        register(new AffixLifesteal()); // % heal on hit
+        register(new AffixKnockback()); // extra knockback
+        register(new AffixFire()); // set target on fire
+
+        // Armor affixes
+        register(new AffixArmor()); // flat damage reduction
+        register(new AffixThorns()); // % reflect on melee hit
+        register(new AffixGuardian()); // flat reduction on all armor slots
+        register(new AffixHeart()); // +max HP on chest/legs
+        register(new AffixMovement()); // +speed on boots
+        register(new AffixFeather()); // -fall damage on boots
     }
 }

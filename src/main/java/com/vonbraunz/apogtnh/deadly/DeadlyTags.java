@@ -10,15 +10,15 @@ import net.minecraft.nbt.NBTTagCompound;
  * All tags live under Entity.getEntityData() (Forge-provided persistent NBT compound).
  * Layout:
  *
- *   entityData:
- *     apogtnh:
- *       tier: STRING (BOSS | ELITE | CARRIER)
+ * entityData:
+ * apogtnh:
+ * tier: STRING (BOSS | ELITE | CARRIER)
  *
  * getEntityData() is server+client shared for the NBT-safe portion and persists across saves.
  */
 public class DeadlyTags {
 
-    public static final String ROOT   = "apogtnh";
+    public static final String ROOT = "apogtnh";
     public static final String KEY_TIER = "tier";
 
     public enum Tier {
@@ -53,7 +53,15 @@ public class DeadlyTags {
         return getTier(entity) != null;
     }
 
-    public static boolean isBoss(EntityLivingBase e)    { return getTier(e) == Tier.BOSS; }
-    public static boolean isElite(EntityLivingBase e)   { return getTier(e) == Tier.ELITE; }
-    public static boolean isCarrier(EntityLivingBase e) { return getTier(e) == Tier.CARRIER; }
+    public static boolean isBoss(EntityLivingBase e) {
+        return getTier(e) == Tier.BOSS;
+    }
+
+    public static boolean isElite(EntityLivingBase e) {
+        return getTier(e) == Tier.ELITE;
+    }
+
+    public static boolean isCarrier(EntityLivingBase e) {
+        return getTier(e) == Tier.CARRIER;
+    }
 }

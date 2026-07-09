@@ -2,6 +2,7 @@
 // Reference: https://github.com/GTNewHorizons/ExampleMod1.7.10/blob/master/dependencies.gradle
 
 dependencies {
-    // Optional: add compat deps later if needed
-    // compileOnly('mcp.mobius.waila:Waila:1.5.10_1.7.10:dev')
+    // Tinkers' Construct (present in every GTNH instance)
+    compileOnly('com.github.GTNewHorizons:TinkersConstruct:1.14.93-GTNH:dev')
+    compileOnly('com.github.GTNewHorizons:Mantle:0.5.3:dev')
 }

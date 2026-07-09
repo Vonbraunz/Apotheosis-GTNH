@@ -1,6 +1,7 @@
 package com.vonbraunz.apogtnh.placebo;
 
 import java.util.UUID;
+
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
@@ -13,8 +14,8 @@ import net.minecraft.entity.ai.attributes.IAttributeInstance;
  */
 public class AttributeHelper {
 
-    public static void applyBuff(EntityLivingBase entity, IAttribute attr, UUID id, String name,
-                                 double amount, int operation) {
+    public static void applyBuff(EntityLivingBase entity, IAttribute attr, UUID id, String name, double amount,
+        int operation) {
         IAttributeInstance inst = entity.getEntityAttribute(attr);
         if (inst == null) return;
         AttributeModifier existing = inst.getModifier(id);
@@ -28,8 +29,19 @@ public class AttributeHelper {
     }
 
     // Common vanilla attribute handles for convenience
-    public static IAttribute maxHealth()   { return SharedMonsterAttributes.maxHealth; }
-    public static IAttribute attackDamage(){ return SharedMonsterAttributes.attackDamage; }
-    public static IAttribute movementSpeed(){ return SharedMonsterAttributes.movementSpeed; }
-    public static IAttribute knockbackResist(){ return SharedMonsterAttributes.knockbackResistance; }
+    public static IAttribute maxHealth() {
+        return SharedMonsterAttributes.maxHealth;
+    }
+
+    public static IAttribute attackDamage() {
+        return SharedMonsterAttributes.attackDamage;
+    }
+
+    public static IAttribute movementSpeed() {
+        return SharedMonsterAttributes.movementSpeed;
+    }
+
+    public static IAttribute knockbackResist() {
+        return SharedMonsterAttributes.knockbackResistance;
+    }
 }

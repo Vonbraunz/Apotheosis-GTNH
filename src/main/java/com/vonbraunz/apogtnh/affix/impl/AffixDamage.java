@@ -1,11 +1,11 @@
 package com.vonbraunz.apogtnh.affix.impl;
 
-import com.vonbraunz.apogtnh.affix.Affix;
-import com.vonbraunz.apogtnh.affix.LootCategory;
-
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
+
+import com.vonbraunz.apogtnh.affix.Affix;
+import com.vonbraunz.apogtnh.affix.LootCategory;
 
 /** +damage on melee/ranged hits. Level = flat extra hearts of damage. */
 public class AffixDamage extends Affix {
@@ -15,8 +15,8 @@ public class AffixDamage extends Affix {
     }
 
     @Override
-    public void onDamageDealt(ItemStack stack, int level, EntityLivingBase attacker,
-                              EntityLivingBase target, DamageSource src, float[] amountRef) {
+    public void onDamageDealt(ItemStack stack, int level, EntityLivingBase attacker, EntityLivingBase target,
+        DamageSource src, float[] amountRef) {
         amountRef[0] += level;
     }
 

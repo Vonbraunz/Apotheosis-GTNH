@@ -1,19 +1,18 @@
 package com.vonbraunz.apogtnh.affix;
 
 import java.util.EnumSet;
-import java.util.List;
+
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
-import net.minecraft.util.EnumChatFormatting;
 
 /**
  * Base class for all affixes.
  *
  * Contract:
- *  - id is a unique registry key ({@code "apogtnh:sharp"}, etc.)
- *  - {@link #canApplyTo(LootCategory)} filters the pool at roll-time
- *  - Firing points (damage/take/tick/onEquip) are called from {@code DeadlyEventHandler}
+ * - id is a unique registry key ({@code "apogtnh:sharp"}, etc.)
+ * - {@link #canApplyTo(LootCategory)} filters the pool at roll-time
+ * - Firing points (damage/take/tick/onEquip) are called from {@code DeadlyEventHandler}
  *
  * Rolling values ({@code level} in NBT) are affix-defined and stored per-item.
  */
@@ -39,14 +38,14 @@ public abstract class Affix {
     // ---- Firing points (default no-ops; override what you need) ---------------
 
     /** Called from LivingHurtEvent when the wearer/wielder is dealing damage. */
-    public void onDamageDealt(ItemStack stack, int level, EntityLivingBase attacker,
-                              EntityLivingBase target, DamageSource src, float[] amountRef) {
+    public void onDamageDealt(ItemStack stack, int level, EntityLivingBase attacker, EntityLivingBase target,
+        DamageSource src, float[] amountRef) {
         // amountRef[0] is the mutable damage — write back to modify
     }
 
     /** Called from LivingHurtEvent when the wearer is taking damage (armor slots). */
-    public void onDamageTaken(ItemStack stack, int level, EntityLivingBase victim,
-                              DamageSource src, float[] amountRef) {}
+    public void onDamageTaken(ItemStack stack, int level, EntityLivingBase victim, DamageSource src,
+        float[] amountRef) {}
 
     /** Called each tick from LivingUpdateEvent for equipped/held items. */
     public void onTick(ItemStack stack, int level, EntityLivingBase holder) {}

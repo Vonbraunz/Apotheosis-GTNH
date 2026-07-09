@@ -20,9 +20,15 @@ public class RegistryList<T> {
         return Collections.unmodifiableList(items);
     }
 
-    public int size() { return items.size(); }
+    public int size() {
+        return items.size();
+    }
 
-    public T get(int i) { return items.get(i); }
+    public T get(int i) {
+        return items.get(i);
+    }
 
-    public boolean isEmpty() { return items.isEmpty(); }
+    public boolean isEmpty() {
+        return items.isEmpty();
+    }
 }

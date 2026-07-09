@@ -1,0 +1,14 @@
+{
+  "required": false,
+  "minVersion": "0.8.5",
+  "package": "com.vonbraunz.apogtnh",
+  "compatibilityLevel": "JAVA_8",
+  "refmap": "mixins.apogtnh.refmap.json",
+  "target": "@env(DEFAULT)",
+  "mixins": [],
+  "client": [],
+  "server": [],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
