@@ -6,15 +6,9 @@ import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 
 public class CommonProxy {
 
-    public void preInit(FMLPreInitializationEvent event) {
-        // TODO(scaffold): server-safe registrations
-    }
+    public void preInit(FMLPreInitializationEvent event) {}
 
-    public void init(FMLInitializationEvent event) {
-        // TODO(scaffold): server-safe wiring
-    }
+    public void init(FMLInitializationEvent event) {}
 
-    public void postInit(FMLPostInitializationEvent event) {
-        // TODO(scaffold): server-safe postInit
-    }
+    public void postInit(FMLPostInitializationEvent event) {}
 }
