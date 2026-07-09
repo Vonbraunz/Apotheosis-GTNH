@@ -26,7 +26,7 @@ public class AffixHaste extends Affix {
 
     @Override
     public String tooltip(ItemStack stack, int level) {
-        return "Haste " + (level);
+        return "Haste " + toRoman(level);
     }
 
     @Override

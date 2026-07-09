@@ -26,7 +26,7 @@ public class AffixFortify extends Affix {
 
     @Override
     public String tooltip(ItemStack stack, int level) {
-        return "Resistance " + (level);
+        return "Resistance " + toRoman(level);
     }
 
     @Override

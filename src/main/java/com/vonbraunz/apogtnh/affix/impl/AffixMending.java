@@ -51,7 +51,7 @@ public class AffixMending extends Affix {
 
     @Override
     public String tooltip(ItemStack stack, int level) {
-        return "Self-Repair " + (level);
+        return "Self-Repair " + toRoman(level);
     }
 
     @Override

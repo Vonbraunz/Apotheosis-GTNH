@@ -33,7 +33,7 @@ public class AffixHeart extends Affix {
 
     @Override
     public String tooltip(ItemStack stack, int level) {
-        return "+" + (level * 2) + " Max Health";
+        return "+" + toRoman(level) + " Max Health";
     }
 
     @Override

@@ -22,7 +22,7 @@ public class AffixDamage extends Affix {
 
     @Override
     public String tooltip(ItemStack stack, int level) {
-        return "+" + level + " Damage";
+        return "+" + toRoman(level) + " Damage";
     }
 
     @Override

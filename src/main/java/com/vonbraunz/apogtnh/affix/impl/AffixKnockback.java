@@ -28,7 +28,7 @@ public class AffixKnockback extends Affix {
 
     @Override
     public String tooltip(ItemStack stack, int level) {
-        return "+" + level + " Knockback";
+        return "+" + toRoman(level) + " Knockback";
     }
 
     @Override

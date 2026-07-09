@@ -32,7 +32,7 @@ public class AffixMovement extends Affix {
 
     @Override
     public String tooltip(ItemStack stack, int level) {
-        return "+" + (level * 5) + "% Speed";
+        return "+" + toRoman(level) + "% Speed";
     }
 
     @Override

@@ -26,7 +26,7 @@ public class AffixGravity extends Affix {
 
     @Override
     public String tooltip(ItemStack stack, int level) {
-        return "Jump Boost " + (level);
+        return "Jump Boost " + toRoman(level);
     }
 
     @Override
