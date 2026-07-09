@@ -24,7 +24,7 @@ public class AffixFire extends Affix {
 
     @Override
     public String tooltip(ItemStack stack, int level) {
-        return "+" + toRoman(level) + " Fire";
+        return "+" + (level * 2) + " Fire";
     }
 
     @Override

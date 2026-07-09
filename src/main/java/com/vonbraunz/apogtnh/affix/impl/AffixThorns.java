@@ -31,7 +31,7 @@ public class AffixThorns extends Affix {
 
     @Override
     public String tooltip(ItemStack stack, int level) {
-        return toRoman(level) + "% Thorns";
+        return level + "% Thorns";
     }
 
     @Override

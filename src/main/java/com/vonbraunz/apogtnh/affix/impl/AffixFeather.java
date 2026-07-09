@@ -24,7 +24,7 @@ public class AffixFeather extends Affix {
 
     @Override
     public String tooltip(ItemStack stack, int level) {
-        return "-" + toRoman(level) + "% Fall Damage";
+        return "-" + (level * 15) + "% Fall Damage";
     }
 
     @Override

@@ -24,7 +24,7 @@ public class AffixLifesteal extends Affix {
 
     @Override
     public String tooltip(ItemStack stack, int level) {
-        return toRoman(level) + "% Lifesteal";
+        return level + "% Lifesteal";
     }
 
     @Override

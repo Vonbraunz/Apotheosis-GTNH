@@ -29,7 +29,7 @@ public class AffixArmor extends Affix {
 
     @Override
     public String tooltip(ItemStack stack, int level) {
-        return "-" + toRoman(level) + " Damage Taken";
+        return "Sturdy " + toRoman(level);
     }
 
     @Override
