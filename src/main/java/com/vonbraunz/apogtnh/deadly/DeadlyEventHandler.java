@@ -87,7 +87,7 @@ public class DeadlyEventHandler {
             if (rand.nextInt(ApoConfig.mobDropChance) != 0) return;
             if (rand.nextInt(100) >= ApoConfig.mobDropPercent) return;
 
-            LootRarity rarity = LootRarity.rollCapped(rand, LootRarity.UNCOMMON);
+            LootRarity rarity = LootRarity.roll(rand);
             ItemStack loot = rollAffixItem(rand, rarity);
             if (loot != null) spawnDrop(entity, loot);
             return;
