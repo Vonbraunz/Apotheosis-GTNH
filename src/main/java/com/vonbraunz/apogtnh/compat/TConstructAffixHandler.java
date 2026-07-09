@@ -1,6 +1,5 @@
 package com.vonbraunz.apogtnh.compat;
 
-import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 
@@ -10,7 +9,6 @@ import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import tconstruct.library.event.ToolBuildEvent;
 import tconstruct.library.event.ToolCraftEvent;
 import tconstruct.library.event.ToolCraftedEvent;
-import tconstruct.library.util.IToolPart;
 
 /**
  * Carries affix data from Tinkers' tool parts through to the assembled tool,
@@ -39,34 +37,22 @@ public class TConstructAffixHandler {
         event.toolTag.setTag(AffixHelper.ROOT, stashedAffixNBT.copy());
     }
 
-    // --- part replacement (tool station output slot) ------------------------
+    // --- output slot (covers both new tools and part replacements) ----------
 
     /**
-     * Fires when the player takes the tool from the output slot, for both new
-     * crafts and part replacements. Scans the station's inventory for any part
-     * with affix data and injects it into the output tool, replacing stale data.
+     * Fires when the player takes the tool from the output slot.
+     * If a part with affix data was used in this build/replacement cycle,
+     * overwrites the tool's existing affix data with the new part's data.
+     * If no affixed part was used, leaves existing affixes alone.
      */
     @SubscribeEvent
     public void onToolCrafted(ToolCraftedEvent event) {
+        if (stashedAffixNBT == null) return;
         ItemStack tool = event.tool;
         if (tool == null) return;
 
-        IInventory inv = event.inventory;
-        if (inv == null) return;
-
-        // scan all slots for a Tinkers' part with affix data
-        for (int i = 0; i < inv.getSizeInventory(); i++) {
-            ItemStack slot = inv.getStackInSlot(i);
-            if (slot == null || !(slot.getItem() instanceof IToolPart)) continue;
-            if (!AffixHelper.hasAffixData(slot)) continue;
-
-            NBTTagCompound affixRoot = (NBTTagCompound) slot.getTagCompound()
-                .getCompoundTag(AffixHelper.ROOT)
-                .copy();
-            NBTTagCompound tag = tool.hasTagCompound() ? tool.getTagCompound() : new NBTTagCompound();
-            tag.setTag(AffixHelper.ROOT, affixRoot);
-            tool.setTagCompound(tag);
-            break;
-        }
+        NBTTagCompound tag = tool.hasTagCompound() ? tool.getTagCompound() : new NBTTagCompound();
+        tag.setTag(AffixHelper.ROOT, stashedAffixNBT.copy());
+        tool.setTagCompound(tag);
     }
 }
