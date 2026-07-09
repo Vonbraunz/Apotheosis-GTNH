@@ -10,10 +10,14 @@ import com.vonbraunz.apogtnh.affix.impl.AffixArmor;
 import com.vonbraunz.apogtnh.affix.impl.AffixDamage;
 import com.vonbraunz.apogtnh.affix.impl.AffixFeather;
 import com.vonbraunz.apogtnh.affix.impl.AffixFire;
+import com.vonbraunz.apogtnh.affix.impl.AffixFortify;
+import com.vonbraunz.apogtnh.affix.impl.AffixGravity;
 import com.vonbraunz.apogtnh.affix.impl.AffixGuardian;
+import com.vonbraunz.apogtnh.affix.impl.AffixHaste;
 import com.vonbraunz.apogtnh.affix.impl.AffixHeart;
 import com.vonbraunz.apogtnh.affix.impl.AffixKnockback;
 import com.vonbraunz.apogtnh.affix.impl.AffixLifesteal;
+import com.vonbraunz.apogtnh.affix.impl.AffixMending;
 import com.vonbraunz.apogtnh.affix.impl.AffixMovement;
 import com.vonbraunz.apogtnh.affix.impl.AffixThorns;
 
@@ -64,16 +68,24 @@ public class AffixRegistry {
     public static void bootstrap() {
         // Weapon affixes
         register(new AffixDamage()); // +flat hearts
-        register(new AffixLifesteal()); // % heal on hit
+        register(new AffixLifesteal()); // % heal on hit (sword/ranged)
         register(new AffixKnockback()); // extra knockback
         register(new AffixFire()); // set target on fire
+        register(new AffixMending()); // self-repair
+
+        // Tool affixes
+        register(new AffixHaste()); // haste potion effect
 
         // Armor affixes
         register(new AffixArmor()); // flat damage reduction
         register(new AffixThorns()); // % reflect on melee hit
         register(new AffixGuardian()); // flat reduction on all armor slots
         register(new AffixHeart()); // +max HP on chest/legs
+        register(new AffixFortify()); // resistance potion effect
+
+        // Boot affixes
         register(new AffixMovement()); // +speed on boots
         register(new AffixFeather()); // -fall damage on boots
+        register(new AffixGravity()); // jump boost on boots
     }
 }

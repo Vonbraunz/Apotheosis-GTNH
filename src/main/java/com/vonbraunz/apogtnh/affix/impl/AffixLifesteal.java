@@ -11,7 +11,7 @@ import com.vonbraunz.apogtnh.affix.LootCategory;
 public class AffixLifesteal extends Affix {
 
     public AffixLifesteal() {
-        super("apogtnh:vampiric", 1, 10, LootCategory.SWORD);
+        super("apogtnh:vampiric", 1, 10, LootCategory.SWORD, LootCategory.RANGED);
     }
 
     @Override
