@@ -1,10 +1,14 @@
 package com.vonbraunz.apogtnh.affix;
 
 import java.util.EnumSet;
+import java.util.List;
 
+import net.minecraft.block.Block;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
+import net.minecraft.world.World;
 
 /**
  * Base class for all affixes.
@@ -49,6 +53,23 @@ public abstract class Affix {
 
     /** Called each tick from LivingUpdateEvent for equipped/held items. */
     public void onTick(ItemStack stack, int level, EntityLivingBase holder) {}
+
+    /**
+     * Called from ToolAffixEventHandler after vanilla harvest drops are computed for a
+     * TOOL-category item. Mutate `drops` in place to change what gets dropped.
+     * TODO: implement per-affix logic (Auto-Smelt, Telekinesis, Fortune Boost, etc.)
+     */
+    public void onHarvestDrops(ItemStack tool, int level, EntityPlayer player, World world, int x, int y, int z,
+        Block block, int meta, List<ItemStack> drops, int vanillaFortune) {}
+
+    /**
+     * Called from ToolAffixEventHandler on right-click block use while holding a hoe with
+     * this affix. Return true if the affix handled the interaction (cancels vanilla use).
+     * TODO: implement Crop Growth logic.
+     */
+    public boolean onHoeUse(ItemStack tool, int level, EntityPlayer player, World world, int x, int y, int z) {
+        return false;
+    }
 
     /** Tooltip line to inject under the affix header. Return null to skip. */
     public String tooltip(ItemStack stack, int level) {
