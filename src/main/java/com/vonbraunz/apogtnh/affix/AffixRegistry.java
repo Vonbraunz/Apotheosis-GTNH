@@ -7,10 +7,13 @@ import java.util.Map;
 import java.util.Random;
 
 import com.vonbraunz.apogtnh.affix.impl.AffixArmor;
+import com.vonbraunz.apogtnh.affix.impl.AffixAutoSmelt;
+import com.vonbraunz.apogtnh.affix.impl.AffixCropGrowth;
 import com.vonbraunz.apogtnh.affix.impl.AffixDamage;
 import com.vonbraunz.apogtnh.affix.impl.AffixFeather;
 import com.vonbraunz.apogtnh.affix.impl.AffixFire;
 import com.vonbraunz.apogtnh.affix.impl.AffixFortify;
+import com.vonbraunz.apogtnh.affix.impl.AffixFortuneBoost;
 import com.vonbraunz.apogtnh.affix.impl.AffixGravity;
 import com.vonbraunz.apogtnh.affix.impl.AffixGuardian;
 import com.vonbraunz.apogtnh.affix.impl.AffixHaste;
@@ -19,7 +22,9 @@ import com.vonbraunz.apogtnh.affix.impl.AffixKnockback;
 import com.vonbraunz.apogtnh.affix.impl.AffixLifesteal;
 import com.vonbraunz.apogtnh.affix.impl.AffixMending;
 import com.vonbraunz.apogtnh.affix.impl.AffixMovement;
+import com.vonbraunz.apogtnh.affix.impl.AffixTelekinesis;
 import com.vonbraunz.apogtnh.affix.impl.AffixThorns;
+import com.vonbraunz.apogtnh.affix.impl.AffixUnbreakingBoost;
 
 /**
  * HashMap-backed registry for affixes. No IForgeRegistry (doesn't exist in 1.7.10).
@@ -75,6 +80,11 @@ public class AffixRegistry {
 
         // Tool affixes
         register(new AffixHaste()); // haste potion effect
+        register(new AffixAutoSmelt()); // scaffold: mined blocks drop smelted result
+        register(new AffixTelekinesis()); // scaffold: drops go straight to inventory
+        register(new AffixFortuneBoost()); // scaffold: bonus fortune levels
+        register(new AffixUnbreakingBoost()); // scaffold: chance to refund durability
+        register(new AffixCropGrowth()); // scaffold: hoe-only instant crop growth
 
         // Armor affixes
         register(new AffixArmor()); // flat damage reduction

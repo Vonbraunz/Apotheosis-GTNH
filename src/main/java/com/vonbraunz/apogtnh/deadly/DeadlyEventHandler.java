@@ -44,7 +44,7 @@ public class DeadlyEventHandler {
     // ==== Spawn tagging =====================================================
 
     @SubscribeEvent
-    public void onSpawn(LivingSpawnEvent.SpecialSpawn event) {
+    public void onSpawn(LivingSpawnEvent event) {
         EntityLivingBase entity = event.entityLiving;
         if (!(entity instanceof IMob)) return;
         if (DeadlyTags.isTagged(entity)) return;

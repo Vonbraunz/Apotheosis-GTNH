@@ -34,18 +34,23 @@ public enum LootCategory {
         if (stack == null || stack.getItem() == null) return null;
         Item item = stack.getItem();
 
-        // Tinkers' Construct tools (check before vanilla since they don't extend vanilla classes)
-        if (item instanceof Weapon) return SWORD;
-        if (item instanceof BowBase) return RANGED;
-        if (item instanceof HarvestTool || item instanceof ToolCore) return TOOL;
+        // Tinkers' Construct tools -- guarded against NoClassDefFoundError since TConstruct
+        // is an optional dependency and won't be present in dev/vanilla runs.
+        try {
+            if (item instanceof Weapon) return SWORD;
+            if (item instanceof BowBase) return RANGED;
+            if (item instanceof HarvestTool || item instanceof ToolCore) return TOOL;
 
-        // Tinkers' tool parts -- classify by part type name
-        if (item instanceof IToolPart) {
-            String name = item.getUnlocalizedName()
-                .toLowerCase();
-            if (name.contains("sword") || name.contains("blade")) return SWORD;
-            if (name.contains("bow")) return RANGED;
-            return TOOL; // pickaxe head, shovel head, axe head, etc.
+            // Tinkers' tool parts -- classify by part type name
+            if (item instanceof IToolPart) {
+                String name = item.getUnlocalizedName()
+                    .toLowerCase();
+                if (name.contains("sword") || name.contains("blade")) return SWORD;
+                if (name.contains("bow")) return RANGED;
+                return TOOL; // pickaxe head, shovel head, axe head, etc.
+            }
+        } catch (NoClassDefFoundError ignored) {
+            // TConstruct not installed -- skip to vanilla checks
         }
 
         if (item instanceof ItemSword) return SWORD;

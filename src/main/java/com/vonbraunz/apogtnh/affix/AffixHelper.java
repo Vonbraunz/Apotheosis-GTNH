@@ -109,7 +109,8 @@ public class AffixHelper {
         }
     }
 
-    private static void applyDisplayName(ItemStack stack, LootRarity rarity, List<Affix> picked) {
+    // exposed for ReforgeController.upgrade to rebuild the name after swapping one affix
+    public static void applyDisplayName(ItemStack stack, LootRarity rarity, List<Affix> picked) {
         // Simple naming: "<Rarity color> [Affix0] [BaseName] [Affix-1]"
         // Modern Apotheosis has a richer name template; keep this minimal for now.
         String prefix = picked.isEmpty() ? ""
