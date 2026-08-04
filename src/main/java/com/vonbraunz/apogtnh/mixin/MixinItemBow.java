@@ -17,6 +17,7 @@ import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import com.vonbraunz.apogtnh.affix.AffixHelper;
+import com.vonbraunz.apogtnh.reforge.AffixArrowStash;
 
 /**
  * Hooks into ItemBow to apply bow-specific affixes (draw speed, multishot, velocity)
@@ -25,10 +26,6 @@ import com.vonbraunz.apogtnh.affix.AffixHelper;
  */
 @Mixin(ItemBow.class)
 public class MixinItemBow {
-
-    // thread-safe stash for passing bow affix NBT to the arrow constructor
-    @Unique
-    private static NBTTagCompound apogtnh$stashedAffix;
 
     /**
      * Before the arrow spawns, stash the bow's affix NBT so MixinEntityArrow can pick
@@ -43,11 +40,11 @@ public class MixinItemBow {
         CallbackInfo ci) {
         if (world.isRemote) return;
         if (AffixHelper.hasAffixData(stack)) {
-            apogtnh$stashedAffix = (NBTTagCompound) stack.getTagCompound()
+            AffixArrowStash.stashedAffix = (NBTTagCompound) stack.getTagCompound()
                 .getCompoundTag("apogtnh")
                 .copy();
         } else {
-            apogtnh$stashedAffix = null;
+            AffixArrowStash.stashedAffix = null;
         }
     }
 
@@ -78,7 +75,7 @@ public class MixinItemBow {
             arrow.setKnockbackStrength(EnchantmentHelper.getEnchantmentLevel(Enchantment.punch.effectId, stack));
             if (EnchantmentHelper.getEnchantmentLevel(Enchantment.flame.effectId, stack) > 0) arrow.setFire(100);
             arrow.rotationYaw += i * 10.0F;
-            apogtnh$stashedAffix = null; // extra arrows don't re-stash
+            AffixArrowStash.stashedAffix = null; // extra arrows don't re-stash
             world.spawnEntityInWorld(arrow);
         }
     }
@@ -117,13 +114,5 @@ public class MixinItemBow {
     @Unique
     private static int apogtnh$getMaxCharge(ItemStack stack) {
         return 72000;
-    }
-
-    /** Exposed for MixinEntityArrow to read the stashed affix. */
-    @Unique
-    public static NBTTagCompound apogtnh$consumeStashedAffix() {
-        NBTTagCompound tag = apogtnh$stashedAffix;
-        apogtnh$stashedAffix = null;
-        return tag;
     }
 }

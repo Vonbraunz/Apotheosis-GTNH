@@ -188,7 +188,7 @@ public class AnvilHandler {
         }
 
         event.output = result;
-        event.cost = 0;
+        event.cost = 1;
         event.materialCost = 1;
     }
 

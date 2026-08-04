@@ -8,6 +8,7 @@ import java.util.List;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.EnumChatFormatting;
 
 import com.vonbraunz.apogtnh.affix.Affix;
 import com.vonbraunz.apogtnh.affix.AffixRegistry;
@@ -63,5 +64,12 @@ public class ItemAffixBook extends Item {
         Affix a = getAffix(stack.getItemDamage());
         if (a != null) return "item.apogtnh.affix_book." + a.id.replace(':', '.');
         return getUnlocalizedName();
+    }
+
+    @Override
+    public String getItemStackDisplayName(ItemStack stack) {
+        Affix a = getAffix(stack.getItemDamage());
+        if (a != null) return EnumChatFormatting.RESET + a.displayName(1) + " Affix Book";
+        return super.getItemStackDisplayName(stack);
     }
 }

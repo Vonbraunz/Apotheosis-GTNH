@@ -17,6 +17,8 @@ import tconstruct.library.tools.HarvestTool;
 import tconstruct.library.tools.ToolCore;
 import tconstruct.library.tools.Weapon;
 import tconstruct.library.util.IToolPart;
+import tconstruct.library.weaponry.AmmoItem;
+import tconstruct.library.weaponry.ProjectileWeapon;
 
 /** What category of item an affix can roll onto. Used for pool filtering. */
 public enum LootCategory {
@@ -38,6 +40,8 @@ public enum LootCategory {
         // is an optional dependency and won't be present in dev/vanilla runs.
         try {
             if (item instanceof Weapon) return SWORD;
+            if (item instanceof ProjectileWeapon) return RANGED; // crossbow
+            if (item instanceof AmmoItem) return RANGED; // bolts / arrows
             if (item instanceof BowBase) return RANGED;
             if (item instanceof HarvestTool || item instanceof ToolCore) return TOOL;
 
