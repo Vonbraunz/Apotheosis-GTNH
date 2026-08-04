@@ -19,6 +19,7 @@ import com.vonbraunz.apogtnh.affix.impl.AffixFire;
 import com.vonbraunz.apogtnh.affix.impl.AffixFireResist;
 import com.vonbraunz.apogtnh.affix.impl.AffixFortify;
 import com.vonbraunz.apogtnh.affix.impl.AffixFortuneBoost;
+import com.vonbraunz.apogtnh.affix.impl.AffixFrost;
 import com.vonbraunz.apogtnh.affix.impl.AffixGravity;
 import com.vonbraunz.apogtnh.affix.impl.AffixGuardian;
 import com.vonbraunz.apogtnh.affix.impl.AffixHaste;
@@ -29,6 +30,8 @@ import com.vonbraunz.apogtnh.affix.impl.AffixLifesteal;
 import com.vonbraunz.apogtnh.affix.impl.AffixMending;
 import com.vonbraunz.apogtnh.affix.impl.AffixMovement;
 import com.vonbraunz.apogtnh.affix.impl.AffixReach;
+import com.vonbraunz.apogtnh.affix.impl.AffixRevitalizing;
+import com.vonbraunz.apogtnh.affix.impl.AffixShredding;
 import com.vonbraunz.apogtnh.affix.impl.AffixStepAssist;
 import com.vonbraunz.apogtnh.affix.impl.AffixTelekinesis;
 import com.vonbraunz.apogtnh.affix.impl.AffixThorns;
@@ -89,6 +92,8 @@ public class AffixRegistry {
         register(new AffixBeheading()); // bonus head/skull drop chance
         register(new AffixExecute()); // instakill below HP threshold
         register(new AffixCleaving()); // hit multiple enemies per swing
+        register(new AffixShredding()); // % max HP bonus damage
+        register(new AffixFrost()); // slowness on hit
 
         // Tool affixes
         register(new AffixHaste()); // haste potion effect
@@ -106,6 +111,7 @@ public class AffixRegistry {
         register(new AffixHeart()); // +max HP on chest/legs
         register(new AffixFortify()); // resistance potion effect
         register(new AffixAquatic()); // water breathing on helmet
+        register(new AffixRevitalizing()); // regeneration on chestplate
 
         // Boot affixes
         register(new AffixMovement()); // +speed on boots
