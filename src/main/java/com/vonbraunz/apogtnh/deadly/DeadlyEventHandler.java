@@ -23,6 +23,7 @@ import com.vonbraunz.apogtnh.ApoConfig;
 import com.vonbraunz.apogtnh.affix.Affix;
 import com.vonbraunz.apogtnh.affix.AffixHelper;
 import com.vonbraunz.apogtnh.affix.LootRarity;
+import com.vonbraunz.apogtnh.affix.impl.AffixBeheading;
 import com.vonbraunz.apogtnh.compat.TinkersItems;
 import com.vonbraunz.apogtnh.deadly.DeadlyTags.Tier;
 
@@ -123,6 +124,44 @@ public class DeadlyEventHandler {
 
         ItemStack loot = rollAffixItem(rand, rarity);
         if (loot != null) spawnDrop(entity, loot);
+
+        // beheading check -- runs for any mob killed by a player
+        handleBeheading(event);
+    }
+
+    private void handleBeheading(LivingDropsEvent event) {
+        if (!(event.source.getEntity() instanceof EntityPlayer)) return;
+        EntityPlayer player = (EntityPlayer) event.source.getEntity();
+        ItemStack weapon = player.getHeldItem();
+        if (weapon == null || !AffixHelper.hasAffixData(weapon)) return;
+
+        Map<Affix, Integer> affixes = AffixHelper.getAffixes(weapon);
+        AffixBeheading beh = null;
+        for (Affix a : affixes.keySet()) {
+            if (a instanceof AffixBeheading) {
+                beh = (AffixBeheading) a;
+                break;
+            }
+        }
+        if (beh == null) return;
+
+        int meta = skullMetaForEntity(event.entityLiving);
+        if (meta < 0) return;
+        int chance = beh.chancePercent(affixes.get(beh));
+        if (event.entityLiving.worldObj.rand.nextInt(100) < chance) {
+            spawnDrop(event.entityLiving, new ItemStack(Items.skull, 1, meta));
+        }
+    }
+
+    /** map common mob types to vanilla skull metadata. -1 = no skull for this mob. */
+    private static int skullMetaForEntity(EntityLivingBase entity) {
+        if (entity instanceof net.minecraft.entity.monster.EntitySkeleton) {
+            return ((net.minecraft.entity.monster.EntitySkeleton) entity).getSkeletonType() == 1 ? 1 : 0;
+        }
+        if (entity instanceof net.minecraft.entity.monster.EntityZombie) return 2;
+        if (entity instanceof net.minecraft.entity.monster.EntityCreeper) return 4;
+        if (entity instanceof EntityPlayer) return 3;
+        return -1;
     }
 
     private void spawnDrop(EntityLivingBase entity, ItemStack stack) {
@@ -363,6 +402,12 @@ public class DeadlyEventHandler {
     public void onTick(LivingUpdateEvent event) {
         EntityLivingBase entity = event.entityLiving;
         if (entity == null) return;
+
+        // reset mutable state that affix onTick handlers may override
+        if (entity instanceof EntityPlayer) {
+            entity.stepHeight = 0.5F; // vanilla default -- AffixStepAssist will bump it
+        }
+
         for (int slot = 0; slot <= 4; slot++) {
             ItemStack stack = entity.getEquipmentInSlot(slot);
             if (stack == null || !AffixHelper.hasAffixData(stack)) continue;

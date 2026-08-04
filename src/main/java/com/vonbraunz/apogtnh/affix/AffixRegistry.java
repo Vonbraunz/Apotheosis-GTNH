@@ -8,6 +8,7 @@ import java.util.Random;
 
 import com.vonbraunz.apogtnh.affix.impl.AffixArmor;
 import com.vonbraunz.apogtnh.affix.impl.AffixAutoSmelt;
+import com.vonbraunz.apogtnh.affix.impl.AffixBeheading;
 import com.vonbraunz.apogtnh.affix.impl.AffixCropGrowth;
 import com.vonbraunz.apogtnh.affix.impl.AffixDamage;
 import com.vonbraunz.apogtnh.affix.impl.AffixFeather;
@@ -22,6 +23,8 @@ import com.vonbraunz.apogtnh.affix.impl.AffixKnockback;
 import com.vonbraunz.apogtnh.affix.impl.AffixLifesteal;
 import com.vonbraunz.apogtnh.affix.impl.AffixMending;
 import com.vonbraunz.apogtnh.affix.impl.AffixMovement;
+import com.vonbraunz.apogtnh.affix.impl.AffixReach;
+import com.vonbraunz.apogtnh.affix.impl.AffixStepAssist;
 import com.vonbraunz.apogtnh.affix.impl.AffixTelekinesis;
 import com.vonbraunz.apogtnh.affix.impl.AffixThorns;
 import com.vonbraunz.apogtnh.affix.impl.AffixUnbreakingBoost;
@@ -77,6 +80,7 @@ public class AffixRegistry {
         register(new AffixKnockback()); // extra knockback
         register(new AffixFire()); // set target on fire
         register(new AffixMending()); // self-repair
+        register(new AffixBeheading()); // bonus head/skull drop chance
 
         // Tool affixes
         register(new AffixHaste()); // haste potion effect
@@ -85,6 +89,7 @@ public class AffixRegistry {
         register(new AffixFortuneBoost()); // scaffold: bonus fortune levels
         register(new AffixUnbreakingBoost()); // scaffold: chance to refund durability
         register(new AffixCropGrowth()); // scaffold: hoe-only instant crop growth
+        register(new AffixReach()); // bonus block interaction range
 
         // Armor affixes
         register(new AffixArmor()); // flat damage reduction
@@ -97,5 +102,6 @@ public class AffixRegistry {
         register(new AffixMovement()); // +speed on boots
         register(new AffixFeather()); // -fall damage on boots
         register(new AffixGravity()); // jump boost on boots
+        register(new AffixStepAssist()); // auto-step up blocks
     }
 }
