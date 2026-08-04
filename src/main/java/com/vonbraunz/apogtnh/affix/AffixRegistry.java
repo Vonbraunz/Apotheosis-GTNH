@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
+import com.vonbraunz.apogtnh.affix.impl.AffixAquatic;
 import com.vonbraunz.apogtnh.affix.impl.AffixArmor;
 import com.vonbraunz.apogtnh.affix.impl.AffixAutoSmelt;
 import com.vonbraunz.apogtnh.affix.impl.AffixBeheading;
@@ -13,6 +14,7 @@ import com.vonbraunz.apogtnh.affix.impl.AffixCropGrowth;
 import com.vonbraunz.apogtnh.affix.impl.AffixDamage;
 import com.vonbraunz.apogtnh.affix.impl.AffixFeather;
 import com.vonbraunz.apogtnh.affix.impl.AffixFire;
+import com.vonbraunz.apogtnh.affix.impl.AffixFireResist;
 import com.vonbraunz.apogtnh.affix.impl.AffixFortify;
 import com.vonbraunz.apogtnh.affix.impl.AffixFortuneBoost;
 import com.vonbraunz.apogtnh.affix.impl.AffixGravity;
@@ -97,11 +99,13 @@ public class AffixRegistry {
         register(new AffixGuardian()); // flat reduction on all armor slots
         register(new AffixHeart()); // +max HP on chest/legs
         register(new AffixFortify()); // resistance potion effect
+        register(new AffixAquatic()); // water breathing on helmet
 
         // Boot affixes
         register(new AffixMovement()); // +speed on boots
         register(new AffixFeather()); // -fall damage on boots
         register(new AffixGravity()); // jump boost on boots
         register(new AffixStepAssist()); // auto-step up blocks
+        register(new AffixFireResist()); // fire immunity on boots
     }
 }
