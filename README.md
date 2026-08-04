@@ -252,4 +252,6 @@ Output jars in `build/libs/` -- dev, sources, and obfuscated.
 
 ## License
 
-MIT
+**Code:** MIT — do whatever, no credit needed.
+
+**Textures / Assets:** [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/) — credit @Vonbraunz, no commercial use, share-alike.
