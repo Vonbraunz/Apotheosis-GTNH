@@ -86,7 +86,7 @@ public class AffixHelper {
 
         NBTTagCompound affixes = new NBTTagCompound();
         for (Affix a : picked) {
-            affixes.setInteger(a.id, a.rollLevel(rand));
+            affixes.setInteger(a.id, a.rollLevel(rand, rarity));
         }
         apo.setTag(KEY_AFFIXES, affixes);
 

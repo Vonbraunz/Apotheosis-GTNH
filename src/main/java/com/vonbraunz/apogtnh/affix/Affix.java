@@ -82,6 +82,30 @@ public abstract class Affix {
         return minLevel + rand.nextInt(maxLevel - minLevel + 1);
     }
 
+    /** Roll a level capped by rarity tier -- no rolling Vampiric X on a Common drop. */
+    public int rollLevel(java.util.Random rand, LootRarity rarity) {
+        int cap = rarityLevelCap(rarity);
+        int effectiveMax = Math.min(maxLevel, cap);
+        if (minLevel >= effectiveMax) return minLevel;
+        return minLevel + rand.nextInt(effectiveMax - minLevel + 1);
+    }
+
+    /** Level cap per rarity. Mythic = uncapped (affix's own max), lower tiers are clamped. */
+    public static int rarityLevelCap(LootRarity rarity) {
+        switch (rarity) {
+            case COMMON:
+                return 1;
+            case UNCOMMON:
+                return 2;
+            case RARE:
+                return 3;
+            case EPIC:
+                return 4;
+            default:
+                return Integer.MAX_VALUE; // Mythic = uncapped
+        }
+    }
+
     /** Human-readable name used in item display name construction. */
     public abstract String displayName(int level);
 

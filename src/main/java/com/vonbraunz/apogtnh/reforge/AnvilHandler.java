@@ -99,7 +99,8 @@ public class AnvilHandler {
         List<Affix> alternatives = ReforgeController.getAlternativeAffixes(result, target);
         if (alternatives == null || alternatives.isEmpty()) return;
         Affix chosen = alternatives.get(rand.nextInt(alternatives.size()));
-        int newLevel = chosen.rollLevel(rand);
+        LootRarity rarity = AffixHelper.getRarity(left);
+        int newLevel = chosen.rollLevel(rand, rarity);
         ReforgeController.upgrade(result, target, chosen, newLevel);
 
         event.output = result;
