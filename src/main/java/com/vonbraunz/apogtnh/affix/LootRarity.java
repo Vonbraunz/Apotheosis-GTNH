@@ -8,7 +8,7 @@ public enum LootRarity {
     UNCOMMON(EnumChatFormatting.YELLOW, 2, 100),
     RARE(EnumChatFormatting.AQUA, 2, 40),
     EPIC(EnumChatFormatting.LIGHT_PURPLE, 3, 10),
-    MYTHIC(EnumChatFormatting.GOLD, 3, 2);
+    MYTHIC(EnumChatFormatting.GOLD, 4, 2);
 
     public final EnumChatFormatting color;
     /** Number of affixes rolled at this rarity. */

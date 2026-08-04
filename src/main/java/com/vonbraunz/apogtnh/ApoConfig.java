@@ -28,7 +28,7 @@ public class ApoConfig {
     public static boolean carrierRequirePlayerKill = true;
 
     // Affix roll settings
-    public static int maxAffixesPerItem = 3;
+    public static int maxAffixesPerItem = 4;
 
     // Master toggles
     public static boolean enableBossSpawns = true;
