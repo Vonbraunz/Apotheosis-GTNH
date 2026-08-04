@@ -28,6 +28,9 @@ import com.vonbraunz.apogtnh.reforge.AffixArrowStash;
 @Mixin(ItemBow.class)
 public class MixinItemBow {
 
+    @Unique
+    private static float velocityMultiplier = 1.0F;
+
     /**
      * Before the arrow is constructed, stash the bow's affix NBT so MixinEntityArrow's
      * constructor hook can pick it up and store it on the arrow entity.
@@ -39,11 +42,7 @@ public class MixinItemBow {
      * That made every arrow carry the *previous* shot's bow affix data instead of this
      * shot's, and the very first arrow ever fired got none at all.
      */
-    @Inject(
-        method = "onPlayerStoppedUsing",
-        at = @At(
-            value = "NEW",
-            target = "Lnet/minecraft/entity/projectile/EntityArrow;<init>(Lnet/minecraft/world/World;Lnet/minecraft/entity/EntityLivingBase;F)V"))
+    @Inject(method = "onPlayerStoppedUsing", at = @At("HEAD"))
     private void apogtnh$stashBowAffix(ItemStack stack, World world, EntityPlayer player, int useDuration,
         CallbackInfo ci) {
         if (world.isRemote) return;
@@ -54,6 +53,9 @@ public class MixinItemBow {
         } else {
             AffixArrowStash.stashedAffix = null;
         }
+        // precompute velocity multiplier so ModifyArg can read it without needing ItemStack
+        int vLevel = apogtnh$affixLevel(stack, "apogtnh:velocity");
+        velocityMultiplier = 1.0F + vLevel * 0.25F;
     }
 
     /**
@@ -121,11 +123,8 @@ public class MixinItemBow {
             value = "INVOKE",
             target = "Lnet/minecraft/entity/projectile/EntityArrow;<init>(Lnet/minecraft/world/World;Lnet/minecraft/entity/EntityLivingBase;F)V"),
         index = 2)
-    private float apogtnh$velocity(float originalArrowVelocity, ItemStack stack) {
-        if (!AffixHelper.hasAffixData(stack)) return originalArrowVelocity;
-        int level = apogtnh$affixLevel(stack, "apogtnh:velocity");
-        if (level <= 0) return originalArrowVelocity;
-        return originalArrowVelocity * (1.0F + level * 0.25F); // +25% / +50% / +75%
+    private float apogtnh$velocity(float originalArrowVelocity) {
+        return originalArrowVelocity * velocityMultiplier;
     }
 
     @Unique
