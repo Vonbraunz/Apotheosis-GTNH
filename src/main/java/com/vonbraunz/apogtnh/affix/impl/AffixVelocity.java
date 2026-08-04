@@ -5,7 +5,7 @@ import net.minecraft.item.ItemStack;
 import com.vonbraunz.apogtnh.affix.Affix;
 import com.vonbraunz.apogtnh.affix.LootCategory;
 
-/** Increased arrow velocity. Level = bonus speed multiplier. */
+/** Increased arrow velocity. Level = bonus speed multiplier. Behavior lives in MixinItemBow. */
 public class AffixVelocity extends Affix {
 
     public AffixVelocity() {

@@ -13,6 +13,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.ModifyArg;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
@@ -88,17 +89,43 @@ public class MixinItemBow {
     }
 
     /**
-     * Draw Speed: reduces the charge time by overriding the velocity divisor. Level 1 =
-     * 15-tick draw, level 3 = 10-tick draw. Injects at the velocity calculation point.
+     * Draw Speed: reduces the ticks needed to reach full charge (vanilla ~20 -> ~13/10/8
+     * for level 1/2/3), reapplying vanilla's own charge curve against that lower threshold.
+     *
+     * The original version of this hook ignored useDuration entirely and always evaluated
+     * to a value that clamped to 1.0F regardless of level or elapsed hold time -- every
+     * shot from a Draw Speed bow fired instantly at full charge, no matter how briefly you
+     * held right-click. Now actually depends on how long the bow was held.
      */
     @ModifyVariable(method = "onPlayerStoppedUsing", at = @At(value = "STORE", ordinal = 2), name = "f")
-    private float apogtnh$drawSpeed(float originalVelocity, ItemStack stack) {
+    private float apogtnh$drawSpeed(float originalVelocity, ItemStack stack, World world, EntityPlayer player,
+        int useDuration) {
         if (!AffixHelper.hasAffixData(stack)) return originalVelocity;
         int level = apogtnh$affixLevel(stack, "apogtnh:draw_speed");
         if (level <= 0) return originalVelocity;
-        // vanilla velocity is charge/20.0; we effectively charge faster by dividing by less
-        float fastCharge = (float) (apogtnh$getMaxCharge(stack) / (20.0D / (1.0D + level * 0.5D)));
-        return Math.min(fastCharge, 1.0F);
+
+        int elapsedTicks = apogtnh$getMaxCharge(stack) - useDuration;
+        float effectiveMaxChargeTicks = (float) (20.0D / (1.0D + level * 0.5D)); // ~13.3 / 10 / 8 ticks
+        return apogtnh$computeChargeFraction(elapsedTicks, effectiveMaxChargeTicks);
+    }
+
+    /**
+     * Velocity: scales the arrow's launch speed multiplier independently of draw charge.
+     * Applied via ModifyArg on the arrow constructor call, after Draw Speed's ModifyVariable
+     * has already run -- they compose naturally: Draw Speed reaches max charge sooner,
+     * Velocity then scales whatever launch speed results from that.
+     */
+    @ModifyArg(
+        method = "onPlayerStoppedUsing",
+        at = @At(
+            value = "INVOKE",
+            target = "Lnet/minecraft/entity/projectile/EntityArrow;<init>(Lnet/minecraft/world/World;Lnet/minecraft/entity/EntityLivingBase;F)V"),
+        index = 2)
+    private float apogtnh$velocity(float originalArrowVelocity, ItemStack stack) {
+        if (!AffixHelper.hasAffixData(stack)) return originalArrowVelocity;
+        int level = apogtnh$affixLevel(stack, "apogtnh:velocity");
+        if (level <= 0) return originalArrowVelocity;
+        return originalArrowVelocity * (1.0F + level * 0.25F); // +25% / +50% / +75%
     }
 
     @Unique
@@ -112,8 +139,14 @@ public class MixinItemBow {
 
     @Unique
     private static float apogtnh$getArrowVelocity(ItemStack stack, int useDuration) {
-        int charge = 72000 - useDuration;
-        float f = (float) charge / 20.0F;
+        int elapsedTicks = apogtnh$getMaxCharge(stack) - useDuration;
+        return apogtnh$computeChargeFraction(elapsedTicks, 20.0F);
+    }
+
+    /** Vanilla's own charge curve, parameterized by how many ticks count as "fully drawn". */
+    @Unique
+    private static float apogtnh$computeChargeFraction(int elapsedTicks, float maxChargeTicks) {
+        float f = elapsedTicks / maxChargeTicks;
         f = (f * f + f * 2.0F) / 3.0F;
         return Math.min(f, 1.0F);
     }
