@@ -16,6 +16,7 @@ import com.vonbraunz.apogtnh.affix.Affix;
 import com.vonbraunz.apogtnh.affix.AffixHelper;
 import com.vonbraunz.apogtnh.affix.LootCategory;
 import com.vonbraunz.apogtnh.affix.LootRarity;
+import com.vonbraunz.apogtnh.reforge.item.ItemAffixBook;
 import com.vonbraunz.apogtnh.reforge.item.ItemAugmentCrystal;
 import com.vonbraunz.apogtnh.reforge.item.ItemPolishingCrystal;
 import com.vonbraunz.apogtnh.reforge.item.ItemRarityMaterial;
@@ -60,6 +61,8 @@ public class AnvilHandler {
             handleAugment(event, left, right);
         } else if (right.getItem() instanceof ItemPolishingCrystal) {
             handleUpgrade(event, left, right);
+        } else if (right.getItem() instanceof ItemAffixBook) {
+            handleApplyBook(event, left, right);
         }
     }
 
@@ -142,6 +145,51 @@ public class AnvilHandler {
         event.output = result;
         event.cost = ApoConfig.upgradeLevelCost;
         event.materialCost = right.stackSize;
+    }
+
+    /** Applies the book's affix at level 1 to the left item. Creative-only utility. */
+    private void handleApplyBook(AnvilUpdateEvent event, ItemStack left, ItemStack right) {
+        if (LootCategory.forStack(left) == null) return;
+        Affix affix = ItemAffixBook.getAffix(right.getItemDamage());
+        if (affix == null) return;
+        if (!affix.canApplyTo(LootCategory.forStack(left))) return;
+
+        ItemStack result = left.copy();
+        if (!AffixHelper.hasAffixData(result)) {
+            // bootstrap affix data with a placeholder rarity and our specific affix
+            AffixHelper.applyRoll(result, LootRarity.COMMON, new Random(seed(left, right)));
+            NBTTagCompound root = result.getTagCompound();
+            NBTTagCompound apo = root.getCompoundTag(AffixHelper.ROOT);
+            NBTTagCompound affixes = apo.getCompoundTag(AffixHelper.KEY_AFFIXES);
+            for (Object key : affixes.func_150296_c()) {
+                affixes.removeTag((String) key);
+            }
+            affixes.setInteger(affix.id, 1);
+            if (root.hasKey("display", 10)) root.getCompoundTag("display")
+                .removeTag("Name");
+            List<Affix> list = new ArrayList<Affix>();
+            list.add(affix);
+            AffixHelper.applyDisplayName(result, LootRarity.COMMON, list);
+        } else {
+            Map<Affix, Integer> current = AffixHelper.getAffixes(result);
+            if (current.containsKey(affix)) return;
+            if (current.size() >= ApoConfig.maxAffixesPerItem) return;
+            NBTTagCompound root = result.getTagCompound();
+            NBTTagCompound apo = root.getCompoundTag(AffixHelper.ROOT);
+            NBTTagCompound affixes = apo.getCompoundTag(AffixHelper.KEY_AFFIXES);
+            affixes.setInteger(affix.id, 1);
+            if (root.hasKey("display", 10)) root.getCompoundTag("display")
+                .removeTag("Name");
+            LootRarity rarity = AffixHelper.getRarity(result);
+            List<Affix> list = new ArrayList<Affix>(
+                AffixHelper.getAffixes(result)
+                    .keySet());
+            AffixHelper.applyDisplayName(result, rarity, list);
+        }
+
+        event.output = result;
+        event.cost = 0;
+        event.materialCost = 1;
     }
 
     /** affixes sorted by id so the order is deterministic and documented. */

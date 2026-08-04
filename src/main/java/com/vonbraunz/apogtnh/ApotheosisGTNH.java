@@ -49,6 +49,7 @@ public class ApotheosisGTNH {
         ApoConfig.load(event.getSuggestedConfigurationFile());
         AffixRegistry.bootstrap();
         ModContent.preInit();
+        com.vonbraunz.apogtnh.reforge.item.ItemAffixBook.initOrder();
         proxy.preInit(event);
     }
 

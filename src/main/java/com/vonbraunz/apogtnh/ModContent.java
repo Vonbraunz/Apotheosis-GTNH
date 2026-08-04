@@ -6,6 +6,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
 import com.vonbraunz.apogtnh.reforge.SalvageRecipe;
+import com.vonbraunz.apogtnh.reforge.item.ItemAffixBook;
 import com.vonbraunz.apogtnh.reforge.item.ItemAugmentCrystal;
 import com.vonbraunz.apogtnh.reforge.item.ItemPolishingCrystal;
 import com.vonbraunz.apogtnh.reforge.item.ItemRarityMaterial;
@@ -24,6 +25,7 @@ public class ModContent {
     public static Item augmentCrystal;
     public static Item polishingCrystal;
     public static Item salvageSigil;
+    public static Item affixBook;
 
     public static void preInit() {
         rarityMaterial = new ItemRarityMaterial().setUnlocalizedName("apogtnh:rarity_material")
@@ -34,11 +36,14 @@ public class ModContent {
             .setCreativeTab(ApotheosisGTNH.creativeTab);
         salvageSigil = new ItemSalvageSigil().setUnlocalizedName("apogtnh:salvage_sigil")
             .setCreativeTab(ApotheosisGTNH.creativeTab);
+        affixBook = new ItemAffixBook().setUnlocalizedName("apogtnh:affix_book")
+            .setCreativeTab(ApotheosisGTNH.creativeTab);
 
         GameRegistry.registerItem(rarityMaterial, "rarityMaterial");
         GameRegistry.registerItem(augmentCrystal, "augmentCrystal");
         GameRegistry.registerItem(polishingCrystal, "polishingCrystal");
         GameRegistry.registerItem(salvageSigil, "salvageSigil");
+        GameRegistry.registerItem(affixBook, "affixBook");
 
         registerRecipes();
     }
