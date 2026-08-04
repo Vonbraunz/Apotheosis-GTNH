@@ -30,6 +30,11 @@ public class AffixAquatic extends Affix {
     }
 
     @Override
+    public String description(int level) {
+        return "Grants permanent Water Breathing while worn.";
+    }
+
+    @Override
     public String displayName(int level) {
         return "Aquatic";
     }

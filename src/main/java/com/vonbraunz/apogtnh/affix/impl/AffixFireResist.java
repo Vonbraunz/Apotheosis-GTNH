@@ -30,6 +30,11 @@ public class AffixFireResist extends Affix {
     }
 
     @Override
+    public String description(int level) {
+        return "Grants permanent Fire Resistance while worn.";
+    }
+
+    @Override
     public String displayName(int level) {
         return "Flame-Walker";
     }

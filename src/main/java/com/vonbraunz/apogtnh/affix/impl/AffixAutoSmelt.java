@@ -44,6 +44,11 @@ public class AffixAutoSmelt extends Affix {
     }
 
     @Override
+    public String description(int level) {
+        return "Mined blocks drop their smelted result instead of raw ore.";
+    }
+
+    @Override
     public String displayName(int level) {
         return "Molten-Touch";
     }

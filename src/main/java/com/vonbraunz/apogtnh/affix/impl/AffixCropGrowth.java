@@ -58,6 +58,11 @@ public class AffixCropGrowth extends Affix {
     }
 
     @Override
+    public String description(int level) {
+        return "Right-click crops with a hoe to instantly grow them. " + (level == 1 ? "3x3" : "5x5") + " area.";
+    }
+
+    @Override
     public String displayName(int level) {
         return "Verdant";
     }

@@ -33,6 +33,11 @@ public class AffixGuardian extends Affix {
     }
 
     @Override
+    public String description(int level) {
+        return "Reduces incoming damage by a flat amount on all armor slots.";
+    }
+
+    @Override
     public String displayName(int level) {
         return "Guardian";
     }

@@ -40,6 +40,11 @@ public class AffixCleaving extends Affix {
     }
 
     @Override
+    public String description(int level) {
+        return "Hits up to " + (level + 2) + " nearby enemies within " + (level + 1) + " blocks.";
+    }
+
+    @Override
     public String displayName(int level) {
         return "Cleaving";
     }

@@ -30,6 +30,11 @@ public class AffixGravity extends Affix {
     }
 
     @Override
+    public String description(int level) {
+        return "Grants Jump Boost " + toRoman(level) + " while worn.";
+    }
+
+    @Override
     public String displayName(int level) {
         return "Spring";
     }

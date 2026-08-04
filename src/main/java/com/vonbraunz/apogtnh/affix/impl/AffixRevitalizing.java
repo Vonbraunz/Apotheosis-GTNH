@@ -30,6 +30,11 @@ public class AffixRevitalizing extends Affix {
     }
 
     @Override
+    public String description(int level) {
+        return "Grants Regeneration " + toRoman(level) + " while worn.";
+    }
+
+    @Override
     public String displayName(int level) {
         return "Revitalizing";
     }

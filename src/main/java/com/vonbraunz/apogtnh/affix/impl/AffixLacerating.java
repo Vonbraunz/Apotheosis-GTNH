@@ -28,6 +28,11 @@ public class AffixLacerating extends Affix {
     }
 
     @Override
+    public String description(int level) {
+        return "Grants " + (level * 10) + "% chance to deal double damage.";
+    }
+
+    @Override
     public String displayName(int level) {
         return "Lacerating";
     }

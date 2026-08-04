@@ -28,6 +28,11 @@ public class AffixFrost extends Affix {
     }
 
     @Override
+    public String description(int level) {
+        return "Slows the target for 3 seconds. Amplifier increases with level.";
+    }
+
+    @Override
     public String displayName(int level) {
         return "Glacial";
     }

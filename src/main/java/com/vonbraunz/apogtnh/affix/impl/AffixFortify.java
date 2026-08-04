@@ -30,6 +30,11 @@ public class AffixFortify extends Affix {
     }
 
     @Override
+    public String description(int level) {
+        return "Grants Resistance " + toRoman(level) + " while worn.";
+    }
+
+    @Override
     public String displayName(int level) {
         return "Fortified";
     }

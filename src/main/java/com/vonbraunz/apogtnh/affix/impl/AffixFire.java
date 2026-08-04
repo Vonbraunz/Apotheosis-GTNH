@@ -28,6 +28,11 @@ public class AffixFire extends Affix {
     }
 
     @Override
+    public String description(int level) {
+        return "Sets the target on fire for " + (level * 2) + " seconds.";
+    }
+
+    @Override
     public String displayName(int level) {
         return "Scorching";
     }

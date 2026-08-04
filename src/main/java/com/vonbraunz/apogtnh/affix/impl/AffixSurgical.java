@@ -18,6 +18,11 @@ public class AffixSurgical extends Affix {
     }
 
     @Override
+    public String description(int level) {
+        return "Deals " + (level * 25) + "% bonus critical damage on arrow hit.";
+    }
+
+    @Override
     public String displayName(int level) {
         return "Surgical";
     }

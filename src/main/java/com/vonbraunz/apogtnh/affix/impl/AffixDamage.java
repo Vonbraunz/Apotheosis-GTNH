@@ -26,6 +26,11 @@ public class AffixDamage extends Affix {
     }
 
     @Override
+    public String description(int level) {
+        return "Deals " + level + " extra flat hearts of damage per hit.";
+    }
+
+    @Override
     public String displayName(int level) {
         return "Sharp";
     }

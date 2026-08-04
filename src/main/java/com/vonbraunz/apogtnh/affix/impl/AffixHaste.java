@@ -30,6 +30,11 @@ public class AffixHaste extends Affix {
     }
 
     @Override
+    public String description(int level) {
+        return "Grants Haste " + toRoman(level) + " while holding the tool.";
+    }
+
+    @Override
     public String displayName(int level) {
         return "Swift-Hand";
     }

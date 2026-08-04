@@ -18,6 +18,11 @@ public class AffixDrawSpeed extends Affix {
     }
 
     @Override
+    public String description(int level) {
+        return "Draws the bow " + (int) (level * 33) + "% faster.";
+    }
+
+    @Override
     public String displayName(int level) {
         return "Quick-Draw";
     }

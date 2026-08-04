@@ -27,6 +27,11 @@ public class AffixStepAssist extends Affix {
     }
 
     @Override
+    public String description(int level) {
+        return "Automatically steps up blocks up to " + level + " block(s) high.";
+    }
+
+    @Override
     public String displayName(int level) {
         return "Spring-Step";
     }

@@ -32,6 +32,11 @@ public class AffixKnockback extends Affix {
     }
 
     @Override
+    public String description(int level) {
+        return "Increases knockback strength by " + level + " level(s).";
+    }
+
+    @Override
     public String displayName(int level) {
         return "Forceful";
     }

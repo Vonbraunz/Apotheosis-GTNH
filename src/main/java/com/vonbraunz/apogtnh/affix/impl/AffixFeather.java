@@ -28,6 +28,11 @@ public class AffixFeather extends Affix {
     }
 
     @Override
+    public String description(int level) {
+        return "Reduces fall damage by " + (level * 10) + "%.";
+    }
+
+    @Override
     public String displayName(int level) {
         return "Feather";
     }

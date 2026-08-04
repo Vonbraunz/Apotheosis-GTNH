@@ -26,6 +26,11 @@ public class AffixShredding extends Affix {
     }
 
     @Override
+    public String description(int level) {
+        return "Deals bonus damage equal to " + (level * 5) + "% of the target's max HP.";
+    }
+
+    @Override
     public String displayName(int level) {
         return "Shredding";
     }

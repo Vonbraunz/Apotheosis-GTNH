@@ -18,6 +18,11 @@ public class AffixExplosive extends Affix {
     }
 
     @Override
+    public String description(int level) {
+        return "Causes a TNT explosion on arrow impact.";
+    }
+
+    @Override
     public String displayName(int level) {
         return "Blasting";
     }

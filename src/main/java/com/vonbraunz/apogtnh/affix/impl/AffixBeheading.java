@@ -27,6 +27,11 @@ public class AffixBeheading extends Affix {
     }
 
     @Override
+    public String description(int level) {
+        return "Grants " + (level * 5) + "% chance for mobs to drop their skull.";
+    }
+
+    @Override
     public String displayName(int level) {
         return "Cleaving";
     }

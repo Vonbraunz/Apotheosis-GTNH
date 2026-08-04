@@ -28,6 +28,11 @@ public class AffixLifesteal extends Affix {
     }
 
     @Override
+    public String description(int level) {
+        return "Heals you for " + level + "% of the damage you deal.";
+    }
+
+    @Override
     public String displayName(int level) {
         return "Vampiric";
     }

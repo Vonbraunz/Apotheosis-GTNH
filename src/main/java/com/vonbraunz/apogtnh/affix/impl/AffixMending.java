@@ -69,6 +69,11 @@ public class AffixMending extends Affix {
     }
 
     @Override
+    public String description(int level) {
+        return "Repairs " + level + " durability every few seconds.";
+    }
+
+    @Override
     public String displayName(int level) {
         return "Mending";
     }

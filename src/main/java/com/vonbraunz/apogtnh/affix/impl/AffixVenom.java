@@ -18,6 +18,11 @@ public class AffixVenom extends Affix {
     }
 
     @Override
+    public String description(int level) {
+        return "Applies Poison " + toRoman(level) + " on arrow hit for " + (3 + level) + " seconds.";
+    }
+
+    @Override
     public String displayName(int level) {
         return "Venomous";
     }

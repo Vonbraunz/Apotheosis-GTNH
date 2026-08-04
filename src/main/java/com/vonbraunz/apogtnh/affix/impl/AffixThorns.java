@@ -35,6 +35,11 @@ public class AffixThorns extends Affix {
     }
 
     @Override
+    public String description(int level) {
+        return "Reflects " + level + "% of melee damage back to the attacker.";
+    }
+
+    @Override
     public String displayName(int level) {
         return "Barbed";
     }

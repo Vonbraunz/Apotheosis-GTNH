@@ -18,6 +18,11 @@ public class AffixVelocity extends Affix {
     }
 
     @Override
+    public String description(int level) {
+        return "Increases arrow speed by " + level + " level(s).";
+    }
+
+    @Override
     public String displayName(int level) {
         return "Accelerating";
     }

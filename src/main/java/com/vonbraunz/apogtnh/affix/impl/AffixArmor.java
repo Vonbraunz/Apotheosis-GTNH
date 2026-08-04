@@ -33,6 +33,11 @@ public class AffixArmor extends Affix {
     }
 
     @Override
+    public String description(int level) {
+        return "Reduces incoming damage by a flat amount per hit.";
+    }
+
+    @Override
     public String displayName(int level) {
         return "Sturdy";
     }

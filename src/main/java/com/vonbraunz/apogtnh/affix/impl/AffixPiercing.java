@@ -18,6 +18,11 @@ public class AffixPiercing extends Affix {
     }
 
     @Override
+    public String description(int level) {
+        return "Deals " + (level * 2) + " bonus flat damage per arrow.";
+    }
+
+    @Override
     public String displayName(int level) {
         return "Piercing";
     }

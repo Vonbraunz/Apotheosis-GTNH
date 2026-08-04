@@ -36,6 +36,11 @@ public class AffixMovement extends Affix {
     }
 
     @Override
+    public String description(int level) {
+        return "Increases movement speed by " + (level * 10) + "%.";
+    }
+
+    @Override
     public String displayName(int level) {
         return "Swift";
     }

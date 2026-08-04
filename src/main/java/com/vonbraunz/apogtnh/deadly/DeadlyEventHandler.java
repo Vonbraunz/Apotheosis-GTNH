@@ -23,6 +23,8 @@ import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.living.LivingSpawnEvent;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 
+import org.lwjgl.input.Keyboard;
+
 import com.vonbraunz.apogtnh.ApoConfig;
 import com.vonbraunz.apogtnh.affix.Affix;
 import com.vonbraunz.apogtnh.affix.AffixHelper;
@@ -361,6 +363,14 @@ public class DeadlyEventHandler {
                 .tooltip(stack, e.getValue());
             if (line != null) {
                 event.toolTip.add(EnumChatFormatting.GRAY + line);
+            }
+            // shift-held detailed description
+            if (Keyboard.isKeyDown(Keyboard.KEY_LSHIFT) || Keyboard.isKeyDown(Keyboard.KEY_RSHIFT)) {
+                String desc = e.getKey()
+                    .description(e.getValue());
+                if (desc != null) {
+                    event.toolTip.add(EnumChatFormatting.DARK_GRAY + "  " + desc);
+                }
             }
         }
     }

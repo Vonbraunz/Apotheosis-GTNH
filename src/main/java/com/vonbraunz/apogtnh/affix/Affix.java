@@ -76,6 +76,11 @@ public abstract class Affix {
         return null;
     }
 
+    /** Detailed description shown when shift is held. Return null to skip. */
+    public String description(int level) {
+        return null;
+    }
+
     /** Roll a level within [minLevel, maxLevel]. Override for non-uniform curves. */
     public int rollLevel(java.util.Random rand) {
         if (minLevel >= maxLevel) return minLevel;

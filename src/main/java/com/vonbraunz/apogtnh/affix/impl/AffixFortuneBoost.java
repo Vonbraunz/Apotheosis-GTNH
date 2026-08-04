@@ -34,6 +34,11 @@ public class AffixFortuneBoost extends Affix {
     }
 
     @Override
+    public String description(int level) {
+        return "Adds " + level + " bonus fortune level(s) to mined blocks.";
+    }
+
+    @Override
     public String displayName(int level) {
         return "Lucky-Strike";
     }

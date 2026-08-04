@@ -22,6 +22,11 @@ public class AffixReach extends Affix {
     }
 
     @Override
+    public String description(int level) {
+        return "Extends block interaction range by " + level + " block(s).";
+    }
+
+    @Override
     public String displayName(int level) {
         return "Extending";
     }

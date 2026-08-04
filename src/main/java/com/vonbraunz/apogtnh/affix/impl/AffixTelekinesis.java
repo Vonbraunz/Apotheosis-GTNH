@@ -43,6 +43,11 @@ public class AffixTelekinesis extends Affix {
     }
 
     @Override
+    public String description(int level) {
+        return "Mined block drops go directly into your inventory.";
+    }
+
+    @Override
     public String displayName(int level) {
         return "Reaching";
     }

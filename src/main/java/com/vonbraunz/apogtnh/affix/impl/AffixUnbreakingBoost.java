@@ -27,6 +27,11 @@ public class AffixUnbreakingBoost extends Affix {
     }
 
     @Override
+    public String description(int level) {
+        return "Grants " + (100 / (level + 1)) + "% chance to not consume durability.";
+    }
+
+    @Override
     public String displayName(int level) {
         return "Enduring";
     }

@@ -37,6 +37,11 @@ public class AffixHeart extends Affix {
     }
 
     @Override
+    public String description(int level) {
+        return "Increases maximum health by " + (level * 2) + " hearts.";
+    }
+
+    @Override
     public String displayName(int level) {
         return "Vital";
     }

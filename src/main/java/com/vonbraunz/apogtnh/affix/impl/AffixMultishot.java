@@ -18,6 +18,11 @@ public class AffixMultishot extends Affix {
     }
 
     @Override
+    public String description(int level) {
+        return "Fires 3 arrows instead of 1 per shot.";
+    }
+
+    @Override
     public String displayName(int level) {
         return "Multishot";
     }

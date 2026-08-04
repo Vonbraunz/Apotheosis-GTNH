@@ -30,6 +30,11 @@ public class AffixExecute extends Affix {
     }
 
     @Override
+    public String description(int level) {
+        return "Instantly kills targets below " + (level * 5) + "% of their max HP.";
+    }
+
+    @Override
     public String displayName(int level) {
         return "Executing";
     }
