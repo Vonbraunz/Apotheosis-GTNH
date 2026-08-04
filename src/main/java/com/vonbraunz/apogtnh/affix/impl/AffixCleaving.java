@@ -10,8 +10,24 @@ import net.minecraft.util.DamageSource;
 import com.vonbraunz.apogtnh.affix.Affix;
 import com.vonbraunz.apogtnh.affix.LootCategory;
 
-/** Hits multiple nearby enemies on each swing. Level 1 = 3 targets, level 3 = 5 targets. */
+/**
+ * Hits multiple nearby enemies on each swing. Level 1 = 3 targets, level 3 = 5 targets.
+ *
+ * attackEntityFrom fires its own LivingHurtEvent per target, which re-invokes this same
+ * onDamageDealt for the same attacker/weapon -- without a reentrancy guard, a cleave hit
+ * on a nearby entity can trigger another cleave that hits back into the original cluster,
+ * cascading in dense mob groups. ACTIVE guards against Cleaving retriggering itself while
+ * still letting other affixes (Fire, Lifesteal, etc.) apply normally to the extra hits.
+ */
 public class AffixCleaving extends Affix {
+
+    private static final ThreadLocal<Boolean> ACTIVE = new ThreadLocal<Boolean>() {
+
+        @Override
+        protected Boolean initialValue() {
+            return false;
+        }
+    };
 
     public AffixCleaving() {
         super("apogtnh:cleaving", 1, 3, LootCategory.SWORD, LootCategory.TOOL);
@@ -20,17 +36,23 @@ public class AffixCleaving extends Affix {
     @Override
     public void onDamageDealt(ItemStack stack, int level, EntityLivingBase attacker, EntityLivingBase target,
         DamageSource src, float[] amountRef) {
-        int maxExtra = level + 2; // 3 / 4 / 5
-        double range = level + 1.0D; // 2 / 3 / 4 blocks
-        AxisAlignedBB aabb = target.boundingBox.expand(range, 1.0D, range);
-        List<EntityLivingBase> nearby = attacker.worldObj.getEntitiesWithinAABB(EntityLivingBase.class, aabb);
+        if (ACTIVE.get()) return;
+        ACTIVE.set(true);
+        try {
+            int maxExtra = level + 2; // 3 / 4 / 5
+            double range = level + 1.0D; // 2 / 3 / 4 blocks
+            AxisAlignedBB aabb = target.boundingBox.expand(range, 1.0D, range);
+            List<EntityLivingBase> nearby = attacker.worldObj.getEntitiesWithinAABB(EntityLivingBase.class, aabb);
 
-        int hit = 0;
-        for (EntityLivingBase e : nearby) {
-            if (e == target || e == attacker || e.isDead) continue;
-            e.attackEntityFrom(src, amountRef[0]);
-            hit++;
-            if (hit >= maxExtra) break;
+            int hit = 0;
+            for (EntityLivingBase e : nearby) {
+                if (e == target || e == attacker || e.isDead) continue;
+                e.attackEntityFrom(src, amountRef[0]);
+                hit++;
+                if (hit >= maxExtra) break;
+            }
+        } finally {
+            ACTIVE.set(false);
         }
     }
 

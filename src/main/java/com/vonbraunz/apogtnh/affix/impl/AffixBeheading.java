@@ -33,6 +33,6 @@ public class AffixBeheading extends Affix {
 
     @Override
     public String displayName(int level) {
-        return "Cleaving";
+        return "Headhunter";
     }
 }

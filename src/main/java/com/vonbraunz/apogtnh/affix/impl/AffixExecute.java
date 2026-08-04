@@ -20,7 +20,10 @@ public class AffixExecute extends Affix {
         float threshold = level * 0.05F; // 5% / 10% / 15%
         float hpPercent = target.getHealth() / target.getMaxHealth();
         if (hpPercent <= threshold) {
-            amountRef[0] = target.getMaxHealth(); // guaranteed kill
+            // this hook runs before vanilla applies armor/potion-resistance reduction to
+            // the event's damage amount, so exactly maxHealth could still be mitigated
+            // down on a heavily armored target. Comfortably overkill instead of exact.
+            amountRef[0] = target.getMaxHealth() * 100.0F;
         }
     }
 
