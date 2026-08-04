@@ -13,7 +13,9 @@ import com.vonbraunz.apogtnh.affix.impl.AffixBeheading;
 import com.vonbraunz.apogtnh.affix.impl.AffixCleaving;
 import com.vonbraunz.apogtnh.affix.impl.AffixCropGrowth;
 import com.vonbraunz.apogtnh.affix.impl.AffixDamage;
+import com.vonbraunz.apogtnh.affix.impl.AffixDrawSpeed;
 import com.vonbraunz.apogtnh.affix.impl.AffixExecute;
+import com.vonbraunz.apogtnh.affix.impl.AffixExplosive;
 import com.vonbraunz.apogtnh.affix.impl.AffixFeather;
 import com.vonbraunz.apogtnh.affix.impl.AffixFire;
 import com.vonbraunz.apogtnh.affix.impl.AffixFireResist;
@@ -29,13 +31,18 @@ import com.vonbraunz.apogtnh.affix.impl.AffixLacerating;
 import com.vonbraunz.apogtnh.affix.impl.AffixLifesteal;
 import com.vonbraunz.apogtnh.affix.impl.AffixMending;
 import com.vonbraunz.apogtnh.affix.impl.AffixMovement;
+import com.vonbraunz.apogtnh.affix.impl.AffixMultishot;
+import com.vonbraunz.apogtnh.affix.impl.AffixPiercing;
 import com.vonbraunz.apogtnh.affix.impl.AffixReach;
 import com.vonbraunz.apogtnh.affix.impl.AffixRevitalizing;
 import com.vonbraunz.apogtnh.affix.impl.AffixShredding;
 import com.vonbraunz.apogtnh.affix.impl.AffixStepAssist;
+import com.vonbraunz.apogtnh.affix.impl.AffixSurgical;
 import com.vonbraunz.apogtnh.affix.impl.AffixTelekinesis;
 import com.vonbraunz.apogtnh.affix.impl.AffixThorns;
 import com.vonbraunz.apogtnh.affix.impl.AffixUnbreakingBoost;
+import com.vonbraunz.apogtnh.affix.impl.AffixVelocity;
+import com.vonbraunz.apogtnh.affix.impl.AffixVenom;
 
 /**
  * HashMap-backed registry for affixes. No IForgeRegistry (doesn't exist in 1.7.10).
@@ -94,6 +101,15 @@ public class AffixRegistry {
         register(new AffixCleaving()); // hit multiple enemies per swing
         register(new AffixShredding()); // % max HP bonus damage
         register(new AffixFrost()); // slowness on hit
+
+        // Ranged affixes (bow / crossbow)
+        register(new AffixVelocity()); // increased arrow speed
+        register(new AffixMultishot()); // fires 3 arrows
+        register(new AffixDrawSpeed()); // faster charge
+        register(new AffixSurgical()); // bonus critical damage on arrow hit
+        register(new AffixExplosive()); // TNT blast on arrow impact
+        register(new AffixPiercing()); // bonus flat damage per arrow
+        register(new AffixVenom()); // poison on arrow hit
 
         // Tool affixes
         register(new AffixHaste()); // haste potion effect

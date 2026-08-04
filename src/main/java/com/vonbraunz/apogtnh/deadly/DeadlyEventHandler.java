@@ -8,9 +8,13 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.monster.IMob;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.projectile.EntityArrow;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.potion.Potion;
+import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraftforge.event.entity.living.LivingDropsEvent;
@@ -378,6 +382,43 @@ public class DeadlyEventHandler {
                     e.getKey()
                         .onDamageDealt(held, e.getValue(), attacker, event.entityLiving, src, amountRef);
                 }
+                event.ammount = amountRef[0];
+            }
+        }
+
+        // arrow affixes: read the bow's stashed affix NBT from the arrow entity
+        if (src.getSourceOfDamage() instanceof EntityArrow) {
+            EntityArrow arrow = (EntityArrow) src.getSourceOfDamage();
+            NBTTagCompound apo = arrow.getEntityData()
+                .getCompoundTag("apogtnh");
+            if (apo.hasKey("affixes", 10)) {
+                NBTTagCompound affixes = apo.getCompoundTag("affixes");
+                float[] amountRef = new float[] { event.ammount };
+
+                // surgical: bonus critical multiplier per level
+                if (affixes.hasKey("apogtnh:surgical")) {
+                    amountRef[0] *= 1.0F + affixes.getInteger("apogtnh:surgical") * 0.25F;
+                }
+                // piercing: flat bonus damage per level
+                if (affixes.hasKey("apogtnh:piercing")) {
+                    amountRef[0] += affixes.getInteger("apogtnh:piercing") * 2.0F;
+                }
+                // explosive: TNT blast on impact
+                if (affixes.hasKey("apogtnh:explosive")) {
+                    event.entityLiving.worldObj.createExplosion(
+                        null,
+                        event.entityLiving.posX,
+                        event.entityLiving.posY,
+                        event.entityLiving.posZ,
+                        2.0F,
+                        true);
+                }
+                // venom: poison on hit, duration scales with level
+                if (affixes.hasKey("apogtnh:venom")) {
+                    int level = affixes.getInteger("apogtnh:venom");
+                    event.entityLiving.addPotionEffect(new PotionEffect(Potion.poison.id, 60 + level * 20, level - 1));
+                }
+
                 event.ammount = amountRef[0];
             }
         }
