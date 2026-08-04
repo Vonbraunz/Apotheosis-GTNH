@@ -8,6 +8,7 @@ import java.util.Map;
 import java.util.Random;
 
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.event.AnvilUpdateEvent;
 
 import com.vonbraunz.apogtnh.ApoConfig;
@@ -16,6 +17,7 @@ import com.vonbraunz.apogtnh.affix.AffixHelper;
 import com.vonbraunz.apogtnh.affix.LootCategory;
 import com.vonbraunz.apogtnh.affix.LootRarity;
 import com.vonbraunz.apogtnh.reforge.item.ItemAugmentCrystal;
+import com.vonbraunz.apogtnh.reforge.item.ItemPolishingCrystal;
 import com.vonbraunz.apogtnh.reforge.item.ItemRarityMaterial;
 
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
@@ -56,6 +58,8 @@ public class AnvilHandler {
             handleReforge(event, left, right);
         } else if (right.getItem() instanceof ItemAugmentCrystal) {
             handleAugment(event, left, right);
+        } else if (right.getItem() instanceof ItemPolishingCrystal) {
+            handleUpgrade(event, left, right);
         }
     }
 
@@ -100,6 +104,42 @@ public class AnvilHandler {
 
         event.output = result;
         event.cost = ApoConfig.augmentLevelCost;
+        event.materialCost = right.stackSize;
+    }
+
+    private void handleUpgrade(AnvilUpdateEvent event, ItemStack left, ItemStack right) {
+        if (!AffixHelper.hasAffixData(left)) return;
+        List<Affix> ordered = sortedAffixes(left);
+        if (ordered.isEmpty()) return;
+
+        int index = right.stackSize - 1;
+        if (index >= ordered.size()) return;
+        Affix target = ordered.get(index);
+
+        Map<Affix, Integer> current = AffixHelper.getAffixes(left);
+        int currentLevel = current.get(target);
+        if (currentLevel >= target.maxLevel) return; // already maxed
+
+        ItemStack result = left.copy();
+        // NBT surgery: bump the affix level by 1, leave everything else alone
+        NBTTagCompound root = result.getTagCompound();
+        NBTTagCompound apo = root.getCompoundTag(AffixHelper.ROOT);
+        NBTTagCompound affixes = apo.getCompoundTag(AffixHelper.KEY_AFFIXES);
+        affixes.setInteger(target.id, currentLevel + 1);
+
+        // rebuild display name
+        if (root.hasKey("display", 10)) {
+            root.getCompoundTag("display")
+                .removeTag("Name");
+        }
+        LootRarity rarity = AffixHelper.getRarity(result);
+        List<Affix> affixList = new ArrayList<Affix>(
+            AffixHelper.getAffixes(result)
+                .keySet());
+        AffixHelper.applyDisplayName(result, rarity, affixList);
+
+        event.output = result;
+        event.cost = ApoConfig.upgradeLevelCost;
         event.materialCost = right.stackSize;
     }
 

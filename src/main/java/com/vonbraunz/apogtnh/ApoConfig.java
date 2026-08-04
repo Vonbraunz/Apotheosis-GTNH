@@ -54,9 +54,13 @@ public class ApoConfig {
     // vanilla anvil caps at 39 levels -- 40 would show "Too Expensive!"
     public static int reforgeXpLevelCostMythic = 39;
 
-    // Single-affix augment cost
+    // Single-affix augment cost (swap)
     public static int augmentMaterialCost = 1;
     public static int augmentLevelCost = 5;
+
+    // Single-affix upgrade cost (polish / +1 level)
+    public static int upgradeMaterialCost = 1;
+    public static int upgradeLevelCost = 5;
 
     // Salvage yield (crafting table, SalvageRecipe)
     public static int salvageMaterialYield = 1;
@@ -243,6 +247,21 @@ public class ApoConfig {
                 0,
                 1000,
                 "XP level cost (anvil) to reroll a single affix.");
+
+            upgradeMaterialCost = config.getInt(
+                "upgradeMaterialCost",
+                "reforge",
+                upgradeMaterialCost,
+                0,
+                64,
+                "Polishing Crystal count consumed to upgrade one affix by 1 level.");
+            upgradeLevelCost = config.getInt(
+                "upgradeLevelCost",
+                "reforge",
+                upgradeLevelCost,
+                0,
+                1000,
+                "XP level cost (anvil) to upgrade one affix by 1 level.");
 
             salvageMaterialYield = config.getInt(
                 "salvageMaterialYield",

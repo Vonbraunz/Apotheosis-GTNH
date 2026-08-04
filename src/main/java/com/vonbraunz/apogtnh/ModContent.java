@@ -7,6 +7,7 @@ import net.minecraft.item.ItemStack;
 
 import com.vonbraunz.apogtnh.reforge.SalvageRecipe;
 import com.vonbraunz.apogtnh.reforge.item.ItemAugmentCrystal;
+import com.vonbraunz.apogtnh.reforge.item.ItemPolishingCrystal;
 import com.vonbraunz.apogtnh.reforge.item.ItemRarityMaterial;
 import com.vonbraunz.apogtnh.reforge.item.ItemSalvageSigil;
 
@@ -21,6 +22,7 @@ public class ModContent {
 
     public static Item rarityMaterial;
     public static Item augmentCrystal;
+    public static Item polishingCrystal;
     public static Item salvageSigil;
 
     public static void preInit() {
@@ -28,11 +30,14 @@ public class ModContent {
             .setCreativeTab(ApotheosisGTNH.creativeTab);
         augmentCrystal = new ItemAugmentCrystal().setUnlocalizedName("apogtnh:augment_crystal")
             .setCreativeTab(ApotheosisGTNH.creativeTab);
+        polishingCrystal = new ItemPolishingCrystal().setUnlocalizedName("apogtnh:polishing_crystal")
+            .setCreativeTab(ApotheosisGTNH.creativeTab);
         salvageSigil = new ItemSalvageSigil().setUnlocalizedName("apogtnh:salvage_sigil")
             .setCreativeTab(ApotheosisGTNH.creativeTab);
 
         GameRegistry.registerItem(rarityMaterial, "rarityMaterial");
         GameRegistry.registerItem(augmentCrystal, "augmentCrystal");
+        GameRegistry.registerItem(polishingCrystal, "polishingCrystal");
         GameRegistry.registerItem(salvageSigil, "salvageSigil");
 
         registerRecipes();
@@ -58,5 +63,18 @@ public class ModContent {
             Blocks.glass,
             'D',
             Items.diamond);
+
+        // Polishing Crystal: nether brick border, diamond corners, ender pearl center, yields 1.
+        GameRegistry.addRecipe(
+            new ItemStack(polishingCrystal),
+            "NDN",
+            "DED",
+            "NDN",
+            'N',
+            Items.netherbrick,
+            'D',
+            Items.diamond,
+            'E',
+            Items.ender_pearl);
     }
 }

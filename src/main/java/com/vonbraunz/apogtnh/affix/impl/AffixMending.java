@@ -19,12 +19,26 @@ public class AffixMending extends Affix {
 
     @Override
     public void onTick(ItemStack stack, int level, EntityLivingBase holder) {
+        // tinkers' tools stay in inventory when broken -- don't resurrect them
+        if (isBroken(stack)) return;
         int current = getDamage(stack);
         if (current <= 0) return;
         int interval = Math.max(1, 6 - level);
         if (holder.ticksExisted % interval == 0) {
             setDamage(stack, current - 1);
         }
+    }
+
+    private boolean isBroken(ItemStack stack) {
+        // tinkers' broken flag
+        if (stack.hasTagCompound() && stack.getTagCompound()
+            .hasKey("InfiTool", 10)) {
+            NBTTagCompound infi = stack.getTagCompound()
+                .getCompoundTag("InfiTool");
+            return infi.getBoolean("Broken");
+        }
+        // vanilla item destroyed (shouldn't normally stay in inventory, but guard anyway)
+        return stack.isItemStackDamageable() && stack.getItemDamage() >= stack.getMaxDamage();
     }
 
     private int getDamage(ItemStack stack) {

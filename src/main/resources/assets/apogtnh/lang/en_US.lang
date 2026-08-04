@@ -14,10 +14,13 @@ item.apogtnh.rarity_material.rare.name=Rare Rarity Material
 item.apogtnh.rarity_material.epic.name=Epic Rarity Material
 item.apogtnh.rarity_material.mythic.name=Mythic Rarity Material
 
-# Augment crystal (anvil right-slot item -- augmenting: single random affix reroll)
+# Augment crystal (anvil right-slot item -- augmenting: swap one affix, stack count = target)
 item.apogtnh:augment_crystal.name=Augment Crystal
 
-# Salvage sigil (anvil right-slot item -- salvaging: affixed item -> rarity material)
+# Polishing crystal (anvil right-slot item -- upgrade one affix by +1 level, stack count = target)
+item.apogtnh:polishing_crystal.name=Polishing Crystal
+
+# Salvaging Hammer (crafting table -- destroys affixed item, yields rarity material)
 item.apogtnh:salvage_sigil.name=Salvaging Hammer
 
 # Affix labels
