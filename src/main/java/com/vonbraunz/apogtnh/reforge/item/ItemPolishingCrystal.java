@@ -11,7 +11,7 @@ import net.minecraft.item.Item;
 public class ItemPolishingCrystal extends Item {
 
     public ItemPolishingCrystal() {
-        setMaxStackSize(4); // up to 3 affixes max, 4th stack size = reject
+        setMaxStackSize(64);
         setTextureName("apogtnh:polishing_crystal");
     }
 }
