@@ -85,6 +85,11 @@ public class DeadlyEventHandler {
         EntityLivingBase entity = event.entityLiving;
         if (!(entity instanceof IMob)) return;
 
+        // beheading check -- runs for any mob killed by a player, independent of tier and
+        // the loot-roll outcome below (it used to be gated behind both, which meant it
+        // almost never fired)
+        handleBeheading(event);
+
         Random rand = entity.worldObj.rand;
         Tier tier = DeadlyTags.getTier(entity);
 
@@ -130,13 +135,10 @@ public class DeadlyEventHandler {
 
         ItemStack loot = rollAffixItem(rand, rarity);
         if (loot != null) spawnDrop(entity, loot);
-
-        // beheading check -- runs for any mob killed by a player
-        handleBeheading(event);
     }
 
     private void handleBeheading(LivingDropsEvent event) {
-        if (!(event.source.getEntity() instanceof EntityPlayer)) return;
+        if (event.source == null || !(event.source.getEntity() instanceof EntityPlayer)) return;
         EntityPlayer player = (EntityPlayer) event.source.getEntity();
         ItemStack weapon = player.getHeldItem();
         if (weapon == null || !AffixHelper.hasAffixData(weapon)) return;

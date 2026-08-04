@@ -113,6 +113,7 @@ public class AnvilHandler {
 
     private void handleUpgrade(AnvilUpdateEvent event, ItemStack left, ItemStack right) {
         if (!AffixHelper.hasAffixData(left)) return;
+        if (right.stackSize < 1) return;
         List<Affix> ordered = sortedAffixes(left);
         if (ordered.isEmpty()) return;
 

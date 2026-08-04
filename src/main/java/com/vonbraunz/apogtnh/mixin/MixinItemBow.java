@@ -28,14 +28,21 @@ import com.vonbraunz.apogtnh.reforge.AffixArrowStash;
 public class MixinItemBow {
 
     /**
-     * Before the arrow spawns, stash the bow's affix NBT so MixinEntityArrow can pick
-     * it up and store it on the arrow entity.
+     * Before the arrow is constructed, stash the bow's affix NBT so MixinEntityArrow's
+     * constructor hook can pick it up and store it on the arrow entity.
+     *
+     * Must fire at the {@code NEW EntityArrow} instruction, not at spawnEntityInWorld --
+     * vanilla constructs the arrow as the very first statement in this method (well before
+     * the sound plays or the entity spawns), so anchoring on spawnEntityInWorld set the
+     * stash *after* MixinEntityArrow's constructor hook had already read (and cleared) it.
+     * That made every arrow carry the *previous* shot's bow affix data instead of this
+     * shot's, and the very first arrow ever fired got none at all.
      */
     @Inject(
         method = "onPlayerStoppedUsing",
         at = @At(
-            value = "INVOKE",
-            target = "Lnet/minecraft/world/World;spawnEntityInWorld(Lnet/minecraft/entity/Entity;)Z"))
+            value = "NEW",
+            target = "Lnet/minecraft/entity/projectile/EntityArrow;<init>(Lnet/minecraft/world/World;Lnet/minecraft/entity/EntityLivingBase;F)V"))
     private void apogtnh$stashBowAffix(ItemStack stack, World world, EntityPlayer player, int useDuration,
         CallbackInfo ci) {
         if (world.isRemote) return;
