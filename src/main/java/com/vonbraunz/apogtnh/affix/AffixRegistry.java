@@ -10,6 +10,7 @@ import com.vonbraunz.apogtnh.affix.impl.AffixAquatic;
 import com.vonbraunz.apogtnh.affix.impl.AffixArmor;
 import com.vonbraunz.apogtnh.affix.impl.AffixAutoSmelt;
 import com.vonbraunz.apogtnh.affix.impl.AffixBeheading;
+import com.vonbraunz.apogtnh.affix.impl.AffixCleaving;
 import com.vonbraunz.apogtnh.affix.impl.AffixCropGrowth;
 import com.vonbraunz.apogtnh.affix.impl.AffixDamage;
 import com.vonbraunz.apogtnh.affix.impl.AffixExecute;
@@ -87,6 +88,7 @@ public class AffixRegistry {
         register(new AffixMending()); // self-repair
         register(new AffixBeheading()); // bonus head/skull drop chance
         register(new AffixExecute()); // instakill below HP threshold
+        register(new AffixCleaving()); // hit multiple enemies per swing
 
         // Tool affixes
         register(new AffixHaste()); // haste potion effect
