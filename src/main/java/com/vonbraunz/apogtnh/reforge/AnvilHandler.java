@@ -1,6 +1,8 @@
 package com.vonbraunz.apogtnh.reforge;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
@@ -19,28 +21,28 @@ import com.vonbraunz.apogtnh.reforge.item.ItemRarityMaterial;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 
 /**
- * Every anvil-based mechanic in the mod, distinguished entirely by the right-slot item --
- * which item you insert *is* the choice of mechanic, so there's no ambiguity between them:
+ * The two anvil-based mechanics in the mod, distinguished entirely by the right-slot item
+ * -- which item you insert *is* the choice of mechanic, so there's no ambiguity between
+ * them:
  *
  * - ItemRarityMaterial -> Reforging: full reroll. Wipes existing affixes (if any) and
  * rolls a fresh set at the material's rarity tier. Works on any affix-eligible item,
  * affixed or not.
  * - ItemAugmentCrystal -> Augmenting: rerolls one random affix already on the item, keeps
  * the rest + the item's current rarity. Requires the item to already have affix data.
- * - ItemSalvageSigil -> Salvaging: destroys an affixed item, returns a rarity material at
- * its current rarity. The economy loop that lets you actually obtain rarity materials
- * without /give -- salvage items you don't want, spend the material to reforge ones you
- * do.
  *
- * All three used to be (or were considered as) separate custom blocks/GUIs. All three hit
- * the same problem -- hand-copied modern-Apotheosis textures whose baked-in slot outlines
- * never matched hardcoded slot coordinates. Routing everything through the vanilla anvil
- * sidesteps that entirely: no custom texture, no custom slot layout, ever.
+ * Salvaging (affixed item -> rarity material, the obtain path for ItemRarityMaterial) is
+ * NOT here -- it runs through the vanilla crafting table instead, via SalvageRecipe +
+ * ItemSalvageSigil's durability-based container-item mechanic. Anvil didn't fit it as well
+ * once salvage stopped needing a "which rarity do I want" choice the way reforge does.
  *
- * One handler, not three independent AnvilUpdateEvent subscribers, so there's no ordering
- * ambiguity about who gets to set event.output. Scaffold only for reforge/augment --
- * ReforgeController is still stubbed, so those two branches don't change the output yet.
- * Salvage is a straight lookup (no ReforgeController involvement) and is fully implemented.
+ * Both mechanics here used to be (or were considered as) separate custom blocks/GUIs. Both
+ * hit the same problem -- hand-copied modern-Apotheosis textures whose baked-in slot
+ * outlines never matched hardcoded slot coordinates. Routing them through the vanilla
+ * anvil sidesteps that entirely: no custom texture, no custom slot layout, ever.
+ *
+ * One handler, not two independent AnvilUpdateEvent subscribers, so there's no ordering
+ * ambiguity about who gets to set event.output.
  */
 public class AnvilHandler {
 
@@ -77,14 +79,18 @@ public class AnvilHandler {
     private void handleAugment(AnvilUpdateEvent event, ItemStack left, ItemStack right) {
         if (!ApoConfig.enableAugmenting) return;
         if (!AffixHelper.hasAffixData(left)) return;
-        if (right.stackSize < ApoConfig.augmentMaterialCost) return;
+        if (right.stackSize < 1) return;
 
-        Map<Affix, Integer> current = AffixHelper.getAffixes(left);
-        if (current.isEmpty()) return;
+        // stack count selects which affix to target: 1 crystal = first affix, 2 = second, etc.
+        // more crystals than affixes on the item -> reject, no fallback to random.
+        List<Affix> ordered = sortedAffixes(left);
+        if (ordered.isEmpty()) return;
+
+        int index = right.stackSize - 1;
+        if (index >= ordered.size()) return;
+        Affix target = ordered.get(index);
 
         Random rand = new Random(seed(left, right));
-        Affix target = pickRandomAffix(rand, current);
-
         ItemStack result = left.copy();
         List<Affix> alternatives = ReforgeController.getAlternativeAffixes(result, target);
         if (alternatives == null || alternatives.isEmpty()) return;
@@ -94,7 +100,22 @@ public class AnvilHandler {
 
         event.output = result;
         event.cost = ApoConfig.augmentLevelCost;
-        event.materialCost = ApoConfig.augmentMaterialCost;
+        event.materialCost = right.stackSize;
+    }
+
+    /** affixes sorted by id so the order is deterministic and documented. */
+    private static List<Affix> sortedAffixes(ItemStack stack) {
+        List<Affix> list = new ArrayList<Affix>(
+            AffixHelper.getAffixes(stack)
+                .keySet());
+        java.util.Collections.sort(list, new java.util.Comparator<Affix>() {
+
+            @Override
+            public int compare(Affix a, Affix b) {
+                return a.id.compareTo(b.id);
+            }
+        });
+        return list;
     }
 
     private Affix pickRandomAffix(Random rand, Map<Affix, Integer> affixes) {
@@ -106,16 +127,48 @@ public class AnvilHandler {
      * Deterministic seed based on the two input stacks so client preview and server
      * result always produce the same random roll. Without this, {@code new Random()}
      * diverges on each side and the anvil shows one item but gives another.
+     *
+     * Built from value-based content (rarity name, sorted affix id/level pairs) rather
+     * than {@code left.getTagCompound().hashCode()} -- NBTTagCompound doesn't override
+     * hashCode()/equals() in 1.7.10, so that would fall back to Object identity and differ
+     * between the client's and server's separately-deserialized copies of the same item,
+     * defeating the whole point of a shared seed.
      */
     private static long seed(ItemStack left, ItemStack right) {
         long s = left.getItem()
             .hashCode();
         s = s * 31 + left.getItemDamage();
-        if (left.hasTagCompound()) s = s * 31 + left.getTagCompound()
-            .hashCode();
+        s = s * 31 + affixContentHash(left);
         s = s * 31 + right.getItem()
             .hashCode();
         s = s * 31 + right.getItemDamage();
         return s;
+    }
+
+    private static long affixContentHash(ItemStack stack) {
+        LootRarity rarity = AffixHelper.getRarity(stack);
+        if (rarity == null) return 0L;
+
+        long h = rarity.name()
+            .hashCode();
+
+        List<Map.Entry<Affix, Integer>> entries = new ArrayList<Map.Entry<Affix, Integer>>(
+            AffixHelper.getAffixes(stack)
+                .entrySet());
+        // stable order required -- two independently-populated HashMaps with the same
+        // entries are not guaranteed to iterate in the same order
+        Collections.sort(entries, new Comparator<Map.Entry<Affix, Integer>>() {
+
+            @Override
+            public int compare(Map.Entry<Affix, Integer> a, Map.Entry<Affix, Integer> b) {
+                return a.getKey().id.compareTo(b.getKey().id);
+            }
+        });
+
+        for (Map.Entry<Affix, Integer> e : entries) {
+            h = h * 31 + e.getKey().id.hashCode();
+            h = h * 31 + e.getValue();
+        }
+        return h;
     }
 }

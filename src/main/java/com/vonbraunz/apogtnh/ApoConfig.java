@@ -36,10 +36,9 @@ public class ApoConfig {
     public static boolean enableCarrierDrops = true;
     public static boolean enableMobDrops = true;
 
-    // Reforge / augment / salvage master toggles -- all three run through AnvilHandler
+    // Reforge / augment master toggles -- both run through AnvilHandler
     public static boolean enableReforging = true;
     public static boolean enableAugmenting = true;
-    public static boolean enableSalvaging = true;
 
     // Per-rarity reforge costs (rarity-material item count / XP levels), scaffold defaults
     public static int reforgeMaterialCostCommon = 1;
@@ -59,10 +58,7 @@ public class ApoConfig {
     public static int augmentMaterialCost = 1;
     public static int augmentLevelCost = 5;
 
-    // Salvage cost/yield (sigils consumed / rarity materials produced)
-    public static int salvageSigilCost = 1;
-    // vanilla anvil refuses to produce output if cost is 0, so minimum is 1
-    public static int salvageLevelCost = 1;
+    // Salvage yield (crafting table, SalvageRecipe)
     public static int salvageMaterialYield = 1;
 
     private static Configuration config;
@@ -160,11 +156,6 @@ public class ApoConfig {
                 "reforge",
                 enableAugmenting,
                 "Master toggle for anvil-based augmenting (AnvilHandler).");
-            enableSalvaging = config.getBoolean(
-                "enableSalvaging",
-                "reforge",
-                enableSalvaging,
-                "Master toggle for anvil-based salvaging (AnvilHandler).");
 
             reforgeMaterialCostCommon = config.getInt(
                 "reforgeMaterialCostCommon",
@@ -253,20 +244,6 @@ public class ApoConfig {
                 1000,
                 "XP level cost (anvil) to reroll a single affix.");
 
-            salvageSigilCost = config.getInt(
-                "salvageSigilCost",
-                "reforge",
-                salvageSigilCost,
-                0,
-                64,
-                "Salvage Sigil count (anvil right slot) consumed per salvage.");
-            salvageLevelCost = config.getInt(
-                "salvageLevelCost",
-                "reforge",
-                salvageLevelCost,
-                1,
-                1000,
-                "XP level cost to salvage an item. Must stay >= 1 (vanilla rejects cost 0).");
             salvageMaterialYield = config.getInt(
                 "salvageMaterialYield",
                 "reforge",
