@@ -23,6 +23,7 @@ import com.vonbraunz.apogtnh.affix.impl.AffixGuardian;
 import com.vonbraunz.apogtnh.affix.impl.AffixHaste;
 import com.vonbraunz.apogtnh.affix.impl.AffixHeart;
 import com.vonbraunz.apogtnh.affix.impl.AffixKnockback;
+import com.vonbraunz.apogtnh.affix.impl.AffixLacerating;
 import com.vonbraunz.apogtnh.affix.impl.AffixLifesteal;
 import com.vonbraunz.apogtnh.affix.impl.AffixMending;
 import com.vonbraunz.apogtnh.affix.impl.AffixMovement;
@@ -81,6 +82,7 @@ public class AffixRegistry {
         register(new AffixDamage()); // +flat hearts
         register(new AffixLifesteal()); // % heal on hit (sword/ranged)
         register(new AffixKnockback()); // extra knockback
+        register(new AffixLacerating()); // % chance double damage
         register(new AffixFire()); // set target on fire
         register(new AffixMending()); // self-repair
         register(new AffixBeheading()); // bonus head/skull drop chance
