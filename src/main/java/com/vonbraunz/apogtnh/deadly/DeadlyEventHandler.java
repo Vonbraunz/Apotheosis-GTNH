@@ -2,6 +2,7 @@ package com.vonbraunz.apogtnh.deadly;
 
 import java.util.Map;
 import java.util.Random;
+import java.util.WeakHashMap;
 
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.EntityLivingBase;
@@ -30,6 +31,7 @@ import com.vonbraunz.apogtnh.affix.Affix;
 import com.vonbraunz.apogtnh.affix.AffixHelper;
 import com.vonbraunz.apogtnh.affix.LootRarity;
 import com.vonbraunz.apogtnh.affix.impl.AffixBeheading;
+import com.vonbraunz.apogtnh.affix.impl.AffixStepAssist;
 import com.vonbraunz.apogtnh.compat.TinkersItems;
 import com.vonbraunz.apogtnh.deadly.DeadlyTags.Tier;
 
@@ -451,16 +453,21 @@ public class DeadlyEventHandler {
         }
     }
 
+    // players whose stepHeight we last raised via AffixStepAssist -- only these get reset,
+    // so we don't fight other mods (e.g. piston boots) that manage stepHeight themselves
+    private static final Map<EntityPlayer, Boolean> STEP_ASSIST_OWNERS = new WeakHashMap<>();
+
     @SubscribeEvent
     public void onTick(LivingUpdateEvent event) {
         EntityLivingBase entity = event.entityLiving;
         if (entity == null) return;
 
-        // reset mutable state that affix onTick handlers may override
-        if (entity instanceof EntityPlayer) {
-            entity.stepHeight = 0.5F; // vanilla default -- AffixStepAssist will bump it
+        boolean isPlayer = entity instanceof EntityPlayer;
+        if (isPlayer && STEP_ASSIST_OWNERS.remove(entity) != null) {
+            entity.stepHeight = 0.5F; // vanilla default -- reapplied below if still equipped
         }
 
+        boolean hasStepAssist = false;
         for (int slot = 0; slot <= 4; slot++) {
             ItemStack stack = entity.getEquipmentInSlot(slot);
             if (stack == null || !AffixHelper.hasAffixData(stack)) continue;
@@ -468,7 +475,14 @@ public class DeadlyEventHandler {
                 .entrySet()) {
                 e.getKey()
                     .onTick(stack, e.getValue(), entity);
+                if (isPlayer && e.getKey() instanceof AffixStepAssist) {
+                    hasStepAssist = true;
+                }
             }
+        }
+
+        if (hasStepAssist) {
+            STEP_ASSIST_OWNERS.put((EntityPlayer) entity, Boolean.TRUE);
         }
     }
 }
